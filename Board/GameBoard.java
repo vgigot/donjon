@@ -13,7 +13,6 @@ import Model.ExplBits;
 import Model.Explosion;
 import Model.MoleHole;
 import Model.Player;
-import Model.Ennemi;
 import Model.Wall;
 import PowerUp.Pow_BombUp;
 import PowerUp.Pow_Clog;
@@ -30,9 +29,6 @@ public class GameBoard extends JPanel {
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
 	/** Vue (tableau) du jeu.
 	 * L'interface graphique du jeu. S'actualise a partir de son modele.
 	 * Sert de JPanel dans le JFrame du controleur.
@@ -44,9 +40,7 @@ public class GameBoard extends JPanel {
 	
 	private Image groundSpr;
 	private ArrayList<Image> bomberSpr = new ArrayList<Image>();
-	private ArrayList<Image> ChickenSpr = new ArrayList<Image>();
 	private ArrayList<Image> bomberDeadSpr = new ArrayList<Image>();
-	private ArrayList<Image> ChickenDeadSpr = new ArrayList<Image>();
 	private ArrayList<Image> wallSpr = new ArrayList<Image>();
 	private ArrayList<Image> powSpr = new ArrayList<Image>();
 	private Image bombSpr; private Image bombUnacSpr;
@@ -77,16 +71,13 @@ public class GameBoard extends JPanel {
 		for(int i=1; i<=model.getPlayers().size(); i++){
 			bomberSpr.add(getSprite("bomber"+Integer.toString(i)+".png"));
 			bomberDeadSpr.add(getSprite("bomberdead"+Integer.toString(i)+".png"));
-			
 			victory.add(getSprite("victory"+Integer.toString(i)+".png"));
 		}
 		
 		wallSpr.add(getSprite("solid.png")); wallSpr.add(getSprite("bricks.png")); wallSpr.add(getSprite("bricksBreaking.png"));
-		ChickenDeadSpr.add(getSprite("ChickenDead.png"));
-		ChickenSpr.add(getSprite("Chicken.png"));
+		
 		powSpr.add(getSprite("fireUp.png")); powSpr.add(getSprite("bombUp.png"));
 		powSpr.add(getSprite("heart.png")); powSpr.add(getSprite("skate.png"));
-		
 		powSpr.add(getSprite("fireDown.png")); powSpr.add(getSprite("clog.png"));
 		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("moleBomb.png"));
 		
@@ -204,22 +195,6 @@ public class GameBoard extends JPanel {
 				}
 			}
 		}
-		
-		//Affiche les ennemis
-		for(int i=0; i<model.getEnnemis().size(); i++){
-		Ennemi pl = model.getEnnemis().get(i);
-			//if(pl.isUnderground()){
-				//if(pl.getDeathPose() <= 2){
-					//g.drawImage(arrowSpr.get(pl.getUgTime()), pl.getPosX()+32, pl.getPosY(), null);
-				//}
-			//}else{
-				if(pl.getDeathPose() == 0){
-					g.drawImage(ChickenSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
-				}else if(pl.getDeathPose() == 1){
-					g.drawImage(ChickenDeadSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
-				}
-			}
-		
 		
 		// Affiche l'ecran de victoire a la fin du jeu.
 		if(model.getOver()){

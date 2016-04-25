@@ -1,5 +1,3 @@
-
-
 package PowerUp;
 
 import Model.Player;

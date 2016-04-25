@@ -11,7 +11,7 @@ public class Pow_Heart extends PowerUp {
 	
 	@Override
 	public void affectPlayer(Player pl){
-		if(pl.getLives()<=2){pl.setLives(pl.getLives()+1);} //Pas plus de deux vies en meme temps.
+		if(pl.getLives()==1){pl.setLives(pl.getLives()+1);} //Pas plus de deux vies en meme temps.
 	}
 	
 }

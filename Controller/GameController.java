@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.ImageIcon;
 
 import Board.GameBoard;
 import Board.MenuBoard;
@@ -50,7 +49,6 @@ public class GameController extends JFrame{
 	
 	public GameController() {
 		setTitle("superBomberman");
-		setIconImage(new ImageIcon("/bomb.pdn").getImage() );
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainMenu();
 	}

@@ -30,7 +30,6 @@ public class GameModel {
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
-	private ArrayList<Ennemi> ennemis = new ArrayList<Ennemi>();
 	private ArrayList<PowerUp> allPowerUps = new ArrayList<PowerUp>();
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 	
@@ -64,24 +63,16 @@ public class GameModel {
 		 * MURS CASSABLES: cases aleatoires 2/3 fois, sauf aux coins.
 		 */
 		for(int i=-1; i<=scaleX; i++){	for(int j=-1; j<=scaleY; j++){
-			if( boundsX.contains(i) || boundsY.contains(j)){
+			if((i%2 == 1 && j%2 == 1) || boundsX.contains(i) || boundsY.contains(j)){
 				walls.add(new Wall(i, j, true));
-
-			}
-			else if((i%2 == 1 && j%2 == 1)){
-				Random Rd = new Random();
-				if(Rd.nextInt(15)==0){  //blocs incassables ==> ennemis
-				ennemis.add(new Ennemi(2, i, j));
-					//walls.add(new Wall(i, j, true));	
-			}
-			else if(!avoidX.contains(i) || !avoidY.contains(j)){
+			}else if(!avoidX.contains(i) || !avoidY.contains(j)){
 				Random rd = new Random();
-				if((rd.nextInt(10)==0)){				//Met des blocs cassables 2 fois sur 3
+				if(!(rd.nextInt(3)==0)){				//Met des blocs cassables 2 fois sur 3
 					walls.add(new Wall(i, j, false));
 				}
 			}
-			}}
-	}}
+		}}
+	}
 
 	
 	
@@ -167,18 +158,6 @@ public class GameModel {
 					}
 					else if(i+1==id && b.getJustLaid() && !playerBox.intersects(bombBox)){
 						System.out.println("Je viens de la laisser");b.setJustLaid(false);
-					}
-				}
-			}
-		}
-		for(int i=0; i<ennemis.size(); i++){
-			for(int j=0; j<ennemis.get(i).getSpareBombs().size(); j++){
-				Bomb b = ennemis.get(i).getSpareBombs().get(j);
-				if(b.getActive()){
-					Rectangle bombBox = new Rectangle(b.getPosX()*32, b.getPosY()*32, 32, 32);
-					if(!(i+1==id && b.getJustLaid()) && playerBox.intersects(bombBox)){
-						System.out.println(!(i+1==id && b.getJustLaid()));
-						collides = true;
 					}
 				}
 			}
@@ -434,19 +413,10 @@ public class GameModel {
 
 
 
-	public void setEnnemis(ArrayList<Ennemi> ennemis) {
-		this.ennemis = ennemis;
-	}
-
-	public ArrayList<Ennemi> getEnnemis() {
-		return ennemis;
-	}
-
-
-
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
+
 
 
 	public ArrayList<Wall> getWalls() {
