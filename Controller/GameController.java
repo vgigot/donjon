@@ -23,7 +23,6 @@ import Model.MoleHole;
 
 public class GameController extends JFrame{
 	/** Controleur du jeu.
-	 * Recoit les modifications et met a jour la vue et le modèle. 
 	 * Sert en meme temps de JFrame.
 	 */
 	
@@ -106,6 +105,7 @@ public class GameController extends JFrame{
 			remove(menu); playing=true;
 			model = new GameModel(scaleX,scaleY,playerNum);
 			board = new GameBoard(scaleX,scaleY,model);
+			model.setBoard(board);
 			for(int i=0; i<model.getPlayers().size(); i++){
 				Listener kl = new Listener(model.getPlayers().get(i));
 				listeners.add(kl); this.addKeyListener(kl);
@@ -161,6 +161,14 @@ public class GameController extends JFrame{
 					kl.getPlayer().setPosY(y-sp);
 				}else if(kl.getPressed().equals("D") && !model.collisionCheck(x,y+sp,i+1,ug)){
 					kl.getPlayer().setPosY(y+sp);
+				}else if(kl.getPressed().equals("I")){
+					kl.getPlayer().inventory(); kl.reset();
+				}else if(kl.getPressed().equals("LL") && !model.collisionCheck(x,y+sp,i+1,ug)){
+					kl.getPlayer().getInventory().moveLeft(); kl.reset();
+				}else if(kl.getPressed().equals("LR") && !model.collisionCheck(x,y+sp,i+1,ug)){
+					kl.getPlayer().getInventory().moveRight(); kl.reset();
+				}else if(kl.getPressed().equals("UU")){
+					kl.getPlayer().useItem(); kl.reset();
 				}
 				if(kl.getAction()){
 					kl.setAction(false);

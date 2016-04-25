@@ -16,6 +16,9 @@ import PowerUp.Pow_MoleBomb;
 import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
 
+import Model.Inventory;
+import Board.GameBoard;
+
 
 public class GameModel {
 	/**Modele du jeu.
@@ -38,6 +41,8 @@ public class GameModel {
 	private Boolean over; //Si le jeu est fini ou pas.
 	private int winner; //Le joueur qui a gagne, 0 si egalite.
 	
+	private GameBoard board;
+	
 	
 	//----------------------------------------------------------
 	
@@ -51,7 +56,8 @@ public class GameModel {
     	boundsY = new ArrayList<Integer>(Arrays.asList(-1, scaleY));
     	layWalls();
     	for(int i=1; i<=playerNum; i++){
-    		players.add(new Player(i, scX, scY));
+    		Inventory inventory = new Inventory(board);
+    		players.add(new Player(i, scX, scY, inventory));
     	}
     }
 	
@@ -181,7 +187,7 @@ public class GameModel {
 					Rectangle powBox = new Rectangle(pow.getPosX()*32, pow.getPosY()*32, 32, 32);
 					if(playerBox.intersects(powBox) && pow.getActive()){
 						pow.setActive(false);
-						pl.getMyPowerUps().add(pow); pow.affectPlayer(pl);
+						pl.getInventory().add(pow);
 					}
 				}
 			}
@@ -411,7 +417,12 @@ public class GameModel {
 		return players;
 	}
 
-
+	public void setBoard(GameBoard board) {
+		this.board = board;
+		for (int i = 0; i < this.players.size(); i++){
+			players.get(i).getInventory().setBoard(board);
+		}
+	}
 
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;

@@ -32,17 +32,20 @@ public class Player{
 	private ActionListener holeThread;	//Enleve le joueur apres un temps
 	private int ugTime;
 	
+	private Inventory inventory;
+	
 	
 	//----------------------------------------------------------
 	
 	
-	public Player(int i, int scaleX, int scaleY){
+	public Player(int i, int scaleX, int scaleY, Inventory inv){
 		id = i;
 		placePlayer(scaleX, scaleY);
 		fireUp = 2; speed = 2; spareEffect = "N";
 		lives = 1; hit = false; deathPose = 0;
 		underground = false; ugTime = 0;
 		spareBombs.add(new Bomb(0,0));
+		inventory = inv;
 	}
 	
 	
@@ -96,6 +99,13 @@ public class Player{
 		}
 	}
 	
+	public void inventory(){
+		this.inventory.menu();
+	}
+	
+	public void useItem() {
+		this.inventory.useCurrentItem(this);
+	}
 	
 	//----------------------------------------------------------
 	
@@ -225,7 +235,10 @@ public class Player{
 		this.spareEffect = spareEffect;
 	}
 
-
+	public Inventory getInventory() {
+		return this.inventory;
+	}
+	
 	public int getLives() {
 		return lives;
 	}

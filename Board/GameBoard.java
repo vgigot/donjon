@@ -24,6 +24,8 @@ import PowerUp.Pow_MoleBomb;
 import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
 
+import Model.Inventory;
+
 
 public class GameBoard extends JPanel {
 	/**
@@ -50,6 +52,8 @@ public class GameBoard extends JPanel {
 	private ArrayList<Image> arrowSpr = new ArrayList<Image>();
 	
 	private ArrayList<Image> victory = new ArrayList<Image>();
+	
+	private Inventory inventory = null;
 	
 	
 	//----------------------------------------------------------
@@ -100,8 +104,41 @@ public class GameBoard extends JPanel {
 		return sprite;
 	}
 	
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
+	
+	public Inventory getInventory() {
+		return this.inventory;
+	}
+	
 	
 	//----------------------------------------------------------
+	
+	public void drawPowerUp(Graphics g, PowerUp pow) {
+		drawPowerUp(g, pow, pow.getPosX()*32+32, pow.getPosY()*32+32);
+	}
+	
+	public void drawPowerUp(Graphics g, PowerUp pow, int X, int Y) {
+		if(pow instanceof Pow_FireUp){
+			g.drawImage(powSpr.get(0), X, Y, null);
+		}else if(pow instanceof Pow_BombUp){
+			g.drawImage(powSpr.get(1), X, Y, null);
+		}else if(pow instanceof Pow_Heart){
+			g.drawImage(powSpr.get(2), X, Y, null);
+		}else if(pow instanceof Pow_Skate){
+			g.drawImage(powSpr.get(3), X, Y, null);
+		}else if(pow instanceof Pow_FireDown){
+			g.drawImage(powSpr.get(4), X, Y, null);
+		}else if(pow instanceof Pow_Clog){
+			g.drawImage(powSpr.get(5), X, Y, null);
+		}else if(pow instanceof Pow_DangerBomb){
+			g.drawImage(powSpr.get(6), X, Y, null);
+		}else if(pow instanceof Pow_MoleBomb){
+			g.drawImage(powSpr.get(7), X, Y, null);
+		}
+	}
+	
 	
 	
 	@Override
@@ -135,23 +172,7 @@ public class GameBoard extends JPanel {
 		for(int i=0; i<model.getAllPowerUps().size(); i++){
 			PowerUp pow = model.getAllPowerUps().get(i);
 			if(pow.getActive()){
-				if(pow instanceof Pow_FireUp){
-					g.drawImage(powSpr.get(0), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_BombUp){
-					g.drawImage(powSpr.get(1), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_Heart){
-					g.drawImage(powSpr.get(2), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_Skate){
-					g.drawImage(powSpr.get(3), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_FireDown){
-					g.drawImage(powSpr.get(4), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_Clog){
-					g.drawImage(powSpr.get(5), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_DangerBomb){
-					g.drawImage(powSpr.get(6), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}else if(pow instanceof Pow_MoleBomb){
-					g.drawImage(powSpr.get(7), pow.getPosX()*32+32, pow.getPosY()*32+32, null);
-				}
+				drawPowerUp(g, pow);
 			}
 		}
 
@@ -199,6 +220,39 @@ public class GameBoard extends JPanel {
 		// Affiche l'ecran de victoire a la fin du jeu.
 		if(model.getOver()){
 			g.drawImage(victory.get(model.getWinner()), scaleX*32/2 - 112, scaleY*32/2 - 112, null);
+		}
+		
+		// Affiche l'ecran d'inventaire
+		if (this.inventory != null) {
+			int menu_X = 120;
+			int menu_Y = 100;
+			int X, Y;
+			PowerUp pow;
+			Image sprite = getSprite("inventory.png");
+			g.drawImage(sprite, menu_X, menu_Y, null);
+			int n = this.inventory.getStorage().size();
+
+			for (int j = 0; j < n; j++){
+				pow = this.inventory.getStorage().get(j);
+				
+				
+				Y = menu_Y + 36 + 12 + ((j - 1) / 3) * 73;
+				X = menu_X + 41 + 12 + ((j + 2) % 3) * 73;
+				
+				drawPowerUp(g, pow, X, Y);
+			}
+			int deph = 56;
+			if (this.inventory.getCurrentIndex() < 1) {
+				
+				X = menu_X + deph; Y = menu_Y + deph;
+			}
+			else {
+				Y = menu_Y + deph + ((this.inventory.getCurrentIndex() - 1) / 3) * 73;
+				X = menu_X + deph + ((this.inventory.getCurrentIndex() + 2) % 3) * 73;
+			}
+			
+			sprite = getSprite("cursor.png");
+			g.drawImage(sprite, X, Y, null);
 		}
 	
 	}

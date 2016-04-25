@@ -24,6 +24,10 @@ public class Listener implements KeyListener {
 	private int up;
 	private int down;
 	private int bomb;
+	private int item;
+	private int inv_left;
+	private int inv_right;
+	private int item_use;
 
 	// ----------------------------------------------------------
 
@@ -47,25 +51,11 @@ public class Listener implements KeyListener {
 			up = KeyEvent.VK_Z;
 			down = KeyEvent.VK_S;
 			bomb = KeyEvent.VK_A;
-		} else if (player.getId() == 2) {
-			right = KeyEvent.VK_L;
-			left = KeyEvent.VK_J;
-			up = KeyEvent.VK_I;
-			down = KeyEvent.VK_K;
-			bomb = KeyEvent.VK_U;
-		} else if (player.getId() == 3) {
-			right = KeyEvent.VK_RIGHT;
-			left = KeyEvent.VK_LEFT;
-			up = KeyEvent.VK_UP;
-			down = KeyEvent.VK_DOWN;
-			bomb = KeyEvent.VK_CONTROL;
-		} else {
-			right = KeyEvent.VK_NUMPAD3;
-			left = KeyEvent.VK_NUMPAD1;
-			up = KeyEvent.VK_NUMPAD5;
-			down = KeyEvent.VK_NUMPAD2;
-			bomb = KeyEvent.VK_NUMPAD4;
-		}
+			item = KeyEvent.VK_I;
+			item_use = KeyEvent.VK_U;
+			inv_left = KeyEvent.VK_LEFT;
+			inv_right = KeyEvent.VK_RIGHT;
+		} 
 	}
 
 	// ----------------------------------------------------------
@@ -88,6 +78,18 @@ public class Listener implements KeyListener {
 		} else if (e.getKeyCode() == down) {
 			pressed = "D";
 			memoryPressed(prSaved);
+		} else if (e.getKeyCode() == item) {
+			pressed = "I";
+			memoryPressed(prSaved);
+		} else if (e.getKeyCode() == inv_left) {
+			pressed = "LL";
+			memoryPressed(prSaved);
+		} else if (e.getKeyCode() == inv_right) {
+			pressed = "LR";
+			memoryPressed(prSaved);
+		} else if (e.getKeyCode() == item_use) {
+			pressed = "UU";
+			memoryPressed(prSaved);
 		}
 	}
 
@@ -103,6 +105,18 @@ public class Listener implements KeyListener {
 			memoryReleased();
 		} else if (e.getKeyCode() == down) {
 			released = "D";
+			memoryReleased();
+		} else if (e.getKeyCode() == item) {
+			released = "I";
+			memoryReleased();
+		} else if (e.getKeyCode() == inv_left) {
+			released = "LL";
+			memoryReleased();
+		} else if (e.getKeyCode() == inv_right) {
+			released = "LR";
+			memoryReleased();
+		} else if (e.getKeyCode() == item_use) {
+			released = "UU";
 			memoryReleased();
 		}
 
@@ -162,5 +176,10 @@ public class Listener implements KeyListener {
 	public void setAction(Boolean action) {
 		this.action = action;
 	}
-
+	
+	public void reset() {
+		this.pressed = "";
+	}
+	
+	
 }
