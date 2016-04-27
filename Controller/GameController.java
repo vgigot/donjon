@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.ArrayList; //uo
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
