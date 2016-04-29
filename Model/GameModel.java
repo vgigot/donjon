@@ -26,8 +26,8 @@ public class GameModel {
 	 * Gere aussi la dynamique du jeu, nottament les explosions.
 	 */
 	
-	private int scaleX;
-	private int scaleY;
+	private int scaleX; private int SX;
+	private int scaleY; private int SY;
 	private ArrayList<Integer> avoidX; private ArrayList<Integer> boundsX;
 	private ArrayList<Integer> avoidY; private ArrayList<Integer> boundsY;
 	
@@ -49,6 +49,7 @@ public class GameModel {
 	
 	public GameModel(int scX,int scY,int playerNum) {
     	scaleX = scX; scaleY = scY;
+    	SX = scaleX/2; SY = scaleY/2;
     	over = false; winner = 0;
     	avoidX = new ArrayList<Integer>(Arrays.asList(0,1,scaleX-2,scaleX-1));
     	avoidY = new ArrayList<Integer>(Arrays.asList(0,1,scaleY-2,scaleY-1));
@@ -63,22 +64,34 @@ public class GameModel {
 	
 	
 	
-	public void layWalls(){
+public void layWalls(){
 		/**Place les murs dans la grille, suivant certaines contraintes:
-		 * MURS SOLIDES: cases aux deux coordonees impaires
-		 * MURS CASSABLES: cases aleatoires 2/3 fois, sauf aux coins.
+		 * MURS SOLIDES: trace un "chemin dans le plateau"
+		 * MURS CASSABLES: cases aleatoires sauf aux coins.
 		 */
 		for(int i=-1; i<=scaleX; i++){	for(int j=-1; j<=scaleY; j++){
-			if((i%2 == 1 && j%2 == 1) || boundsX.contains(i) || boundsY.contains(j)){
-				walls.add(new Wall(i, j, true));
-			}else if(!avoidX.contains(i) || !avoidY.contains(j)){
+			int k = SX; int l =SY;
+			//if( (boundsX.contains(i) && i!= SX)|| (boundsY.contains(j))) {
+			//if((i<=SX-1) && (i>SX) && (j<=SY-1) && (j>SY)){
+			if (((i<= SX-1) && (j == -1)) || ((i> SX) && (j == -1)) || ((i<= SX-1) && (j == scaleY)) || ((i> SX) && (j == scaleY)) || ((i == -1) && (j <= SY-1)) || ((i == -1) && (j > SY)) || ((i == scaleX) && (j <= SY-1)) || ((i== scaleX) && (j > SY))){
+					walls.add(new Wall(i, j, true));
+			}
+			else if(!avoidX.contains(i) || !avoidY.contains(j) &&( avoidX.contains(i-1) && avoidY.contains(j-1))){
+				Random Rd = new Random();
+				if((Rd.nextInt(5)==0)){				//Met des blocs cassables 2 fois sur 3
+					walls.add(new Wall(i, j, true));
+					}
+				}
+				
+			else if(!avoidX.contains(i) || !avoidY.contains(j)){
 				Random rd = new Random();
-				if(!(rd.nextInt(3)==0)){				//Met des blocs cassables 2 fois sur 3
+				if((rd.nextInt(8)==0)){				//Met des blocs cassables 2 fois sur 3
 					walls.add(new Wall(i, j, false));
 				}
 			}
 		}}
 	}
+
 
 	
 	
