@@ -43,6 +43,9 @@ public class GameBoard extends JPanel {
 	private Image groundSpr;
 	private ArrayList<Image> bomberSpr = new ArrayList<Image>();
 	private ArrayList<Image> bomberDeadSpr = new ArrayList<Image>();
+	private ArrayList<Image> EnSpr = new ArrayList<Image>();
+	private ArrayList<Image> EnDeadSpr = new ArrayList<Image>();
+	private ArrayList<Image> PlayerSpr = new ArrayList<Image>();
 	private ArrayList<Image> wallSpr = new ArrayList<Image>();
 	private ArrayList<Image> powSpr = new ArrayList<Image>();
 	private Image bombSpr; private Image bombUnacSpr;
@@ -82,6 +85,8 @@ public class GameBoard extends JPanel {
 		
 		powSpr.add(getSprite("fireUp.png")); powSpr.add(getSprite("bombUp.png"));
 		powSpr.add(getSprite("heart.png")); powSpr.add(getSprite("skate.png"));
+		EnSpr.add(getSprite("Chicken.png"));EnDeadSpr.add(getSprite("ChickenDead.png"));
+		PlayerSpr.add(getSprite("Knight.png"));
 		powSpr.add(getSprite("fireDown.png")); powSpr.add(getSprite("clog.png"));
 		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("moleBomb.png"));
 		
@@ -146,7 +151,7 @@ public class GameBoard extends JPanel {
 		super.paintComponent(g);
 		
 		// Remplit le board de sprites du sol.
-		for(int i=0; i<scaleX-2; i++){ 	for(int j=0; j<scaleY-2; j++){
+		for(int i=-1; i<scaleX-1; i++){ 	for(int j=-1; j<scaleY-1; j++){
 			g.drawImage(groundSpr, i*32+32, j*32+32, null);
 		}	}
 		
@@ -210,7 +215,8 @@ public class GameBoard extends JPanel {
 				}
 			}else{
 				if(pl.getDeathPose() == 0){
-					g.drawImage(bomberSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
+					//g.drawImage(bomberSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
+					g.drawImage(PlayerSpr.get(0), pl.getPosX()+34, pl.getPosY()+25, null);
 				}else if(pl.getDeathPose() == 1){
 					g.drawImage(bomberDeadSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
 				}
