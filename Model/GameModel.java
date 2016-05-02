@@ -15,7 +15,6 @@ import PowerUp.Pow_Heart;
 import PowerUp.Pow_MoleBomb;
 import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
-
 import Model.Inventory;
 import Board.GameBoard;
 
@@ -32,6 +31,7 @@ public class GameModel {
 	private ArrayList<Integer> avoidY; private ArrayList<Integer> boundsY;
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Enemi> ennemis = new ArrayList<Enemi>();
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
 	private ArrayList<PowerUp> allPowerUps = new ArrayList<PowerUp>();
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
@@ -54,17 +54,22 @@ public class GameModel {
     	avoidX = new ArrayList<Integer>(Arrays.asList(0,1,scaleX-2,scaleX-1));
     	avoidY = new ArrayList<Integer>(Arrays.asList(0,1,scaleY-2,scaleY-1));
     	boundsX = new ArrayList<Integer>(Arrays.asList(-1, scaleX));
+    	//boundsX.remove (SX);
     	boundsY = new ArrayList<Integer>(Arrays.asList(-1, scaleY));
     	layWalls();
     	for(int i=1; i<=playerNum; i++){
     		Inventory inventory = new Inventory(board);
     		players.add(new Player(i, scX, scY, inventory));
+    		//ennemis.add(new Enemi(i, scX, scY));
     	}
+    	for(int i=1; i<=2; i++){
+    		//Inventory inventory = new Inventory(board);
+    		ennemis.add(new Enemi(i, scX, scY));}
     }
 	
 	
 	
-public void layWalls(){
+	public void layWalls(){
 		/**Place les murs dans la grille, suivant certaines contraintes:
 		 * MURS SOLIDES: trace un "chemin dans le plateau"
 		 * MURS CASSABLES: cases aleatoires sauf aux coins.
@@ -85,13 +90,12 @@ public void layWalls(){
 				
 			else if(!avoidX.contains(i) || !avoidY.contains(j)){
 				Random rd = new Random();
-				if((rd.nextInt(8)==0)){				//Met des blocs cassables 2 fois sur 3
+				if((rd.nextInt(7)==0)){				//Met des blocs cassables 2 fois sur 3
 					walls.add(new Wall(i, j, false));
 				}
 			}
 		}}
 	}
-
 
 	
 	
@@ -133,6 +137,7 @@ public void layWalls(){
 		 * Si le joueur est sous-terre, il n'est bloque que par les murs solides.
 		 */
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
+		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
 			Wall w = walls.get(i);
@@ -160,6 +165,7 @@ public void layWalls(){
 		 * Pas d'exception pour les joueurs sous terre.
 		 */
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
+		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
 			Wall w = walls.get(i);
@@ -177,6 +183,38 @@ public void layWalls(){
 					}
 					else if(i+1==id && b.getJustLaid() && !playerBox.intersects(bombBox)){
 						System.out.println("Je viens de la laisser");b.setJustLaid(false);
+					}
+				}
+			}
+		}
+		return collides;
+	}
+	
+	
+	public Boolean collisionEnCheck(int x,int y, int id){
+		/**Gere les collisions des joueurs avec les murs et les bombes.
+		 * Si le joueur vient de poser une bombe, il peut la traverser.
+		 * Pas d'exception pour les joueurs sous terre.
+		 */
+		Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
+		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
+		Boolean collides = false;
+		for (int i=0; i<walls.size();i++){
+			Wall w = walls.get(i);
+			Rectangle wallBox = new Rectangle(w.getPosX()*32, w.getPosY()*32, 32, 32);
+			if(EnBox.intersects(wallBox)){collides = true;}
+		}
+		for(int i=0; i<ennemis.size(); i++){
+			for(int j=0; j<ennemis.get(i).getSpareBombs().size(); j++){
+				Bomb b = ennemis.get(i).getSpareBombs().get(j);
+				if(b.getActive()){
+					Rectangle bombBox = new Rectangle(b.getPosX()*32, b.getPosY()*32, 32, 32);
+					if(!(i+1==id && b.getJustLaid()) && EnBox.intersects(bombBox)){
+						System.out.println(!(i+1==id && b.getJustLaid()));
+						collides = true;
+					}
+					else if(i+1==id && b.getJustLaid() && !EnBox.intersects(bombBox)){
+						System.out.println("Il vient de la laisser");b.setJustLaid(false);
 					}
 				}
 			}
@@ -281,7 +319,51 @@ public void layWalls(){
 		}
 	}
 	
-	
+	public void hitEnemisCheck(){
+		/**Cette fonction gere la survie des joueurs:
+		 * 1) Si le joueur est mort, on declenche une animation.
+		 * 2) Si l'animation  de mort est finie, on pose les powerups du joueur
+		 *    aleatoirement, puis il est efface de la liste de joueurs.
+		 * 3) Si le joueur est vivant (et sur terre), et s'il est pris dans une
+		 *    explosion, il perd une vie, et reste invulnerable jusqu'a ce qu'il
+		 *    sorte de l'explosion.
+		 */
+		for(int i=0; i<ennemis.size(); i++){
+			Enemi en = ennemis.get(i);
+			
+			//JOUEUR MORT
+			if(en.getLives() == 0 && en.getDeathPose() == 0){en.deathTimer();}
+			
+			//JOUEUR MORT - ANIMATION FINIE
+			else if(en.getDeathPose() == 2){
+				for(int j=0; j<en.getMyPowerUps().size(); j++){
+					PowerUp pow = en.getMyPowerUps().get(j);
+					pow.setActive(true);
+					Random rd = new Random();
+					pow.setPosX(rd.nextInt((scaleX-1)/2 - 1)*2 + 2);
+					pow.setPosY(rd.nextInt((scaleY-1)/2 - 1)*2 + 2);
+				}
+				powerUpInWallCheck(en.getMyPowerUps());
+				en.setDeathPose(3);
+				
+			//JOUEUR VIVANT (ET SUR TERRE)
+			}else if(!en.isUnderground()){
+				Boolean notColliding = true;
+				Rectangle EnBox = new Rectangle(en.getPosX()+3, en.getPosY()+7, 26, 23);
+				for(int j=0; j<explosions.size(); j++){
+					for(int k=0; k<explosions.get(j).getBits().size(); k++){
+						ExplBits bit = explosions.get(j).getBits().get(k);
+						Rectangle explBox = new Rectangle(bit.getPosX()*32, bit.getPosY()*32, 32, 32);
+						if(EnBox.intersects(explBox)){
+							notColliding = false;
+							if(!en.getHit()){en.setHit(true); en.setLives(en.getLives() - 1);}
+						}
+					}
+				}
+				if(notColliding && en.getHit()){en.setHit(false);}
+			}
+		}
+	}
 	
 	public void hitWallsCheck(){
 		/**Enleve les murs casses et met un powerup aleatoirement
@@ -430,6 +512,11 @@ public void layWalls(){
 		return players;
 	}
 
+	public ArrayList<Enemi> getEnemi() {
+		return ennemis;
+	}
+	
+	
 	public void setBoard(GameBoard board) {
 		this.board = board;
 		for (int i = 0; i < this.players.size(); i++){
@@ -441,7 +528,9 @@ public void layWalls(){
 		this.players = players;
 	}
 
-
+	public void setEnemi(ArrayList<Enemi> ennemis) {
+		this.ennemis = ennemis;
+	}
 
 	public ArrayList<Wall> getWalls() {
 		return walls;
@@ -514,3 +603,4 @@ public void layWalls(){
 	}
 
 }
+
