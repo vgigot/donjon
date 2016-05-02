@@ -14,6 +14,7 @@ import Model.Explosion;
 import Model.MoleHole;
 import Model.Player;
 import Model.Wall;
+import Model.Enemi;
 import PowerUp.Pow_BombUp;
 import PowerUp.Pow_Clog;
 import PowerUp.Pow_DangerBomb;
@@ -72,7 +73,7 @@ public class GameBoard extends JPanel {
     
     
 	private void getAllSprites() {
-		groundSpr = getSprite("ground.png");
+		groundSpr = getSprite("ground.jpg");
 		
 		victory.add(getSprite("victory0.png"));
 		for(int i=1; i<=model.getPlayers().size(); i++){
@@ -81,12 +82,15 @@ public class GameBoard extends JPanel {
 			victory.add(getSprite("victory"+Integer.toString(i)+".png"));
 		}
 		
-		wallSpr.add(getSprite("solid.png")); wallSpr.add(getSprite("bricks.png")); wallSpr.add(getSprite("bricksBreaking.png"));
+		wallSpr.add(getSprite("wall.jpg")); wallSpr.add(getSprite("Box.png")); wallSpr.add(getSprite("NoBox.png"));
 		
+		for(int i=1; i<=model.getEnemi().size(); i++){
+			EnSpr.add(getSprite("Chicken.png"));
+			EnDeadSpr.add(getSprite("ChickenDead.png"));
+		}
+		PlayerSpr.add(getSprite("Knight.png"));
 		powSpr.add(getSprite("fireUp.png")); powSpr.add(getSprite("bombUp.png"));
 		powSpr.add(getSprite("heart.png")); powSpr.add(getSprite("skate.png"));
-		EnSpr.add(getSprite("Chicken.png"));EnDeadSpr.add(getSprite("ChickenDead.png"));
-		PlayerSpr.add(getSprite("Knight.png"));
 		powSpr.add(getSprite("fireDown.png")); powSpr.add(getSprite("clog.png"));
 		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("moleBomb.png"));
 		
@@ -222,6 +226,22 @@ public class GameBoard extends JPanel {
 				}
 			}
 		}
+		
+		// Affiche les ennemis.
+				for(int i=0; i<model.getEnemi().size(); i++){
+					Enemi en = model.getEnemi().get(i);
+					//if(pl.isUnderground()){
+						//if(pl.getDeathPose() <= 2){
+						//	g.drawImage(arrowSpr.get(pl.getUgTime()), pl.getPosX()+32, pl.getPosY(), null);
+						//}
+					//}else{
+						if(en.getDeathPose() == 0){
+							g.drawImage(EnSpr.get(0), en.getPosX()+32, en.getPosY()+20, null);
+						}else if(en.getDeathPose() == 1){
+							g.drawImage(EnDeadSpr.get(0), en.getPosX()+32, en.getPosY(), null);
+						}
+					}
+				
 		
 		// Affiche l'ecran de victoire a la fin du jeu.
 		if(model.getOver()){
