@@ -195,23 +195,20 @@ public class GameModel {
 	public void checkDoors(int x, int y, Player player, GameController gc) { // TODO
 		Boolean out = false;
 		if (x < - 100) {
-			out = true;
-			player.setPosX(-50);
+			player.setPosX(500);
+			gc.changeRoom("left");
 		}
 		else if (x > 550) {
-			out = true;
-			player.setPosX(500);
+			player.setPosX(-50);
+			gc.changeRoom("right");
 		}
 		else if (y > 500) {
-			out = true;
-			player.setPosY(450);
+			player.setPosY(-50);
+			gc.changeRoom("down");
 		}
 		else if (y < -100) {
-			out = true;
-			player.setPosY(-50);
-		}
-		if (out) {
-			gc.changeRoom();
+			player.setPosY(450);
+			gc.changeRoom("up");
 		}
 	}
 	
@@ -221,7 +218,6 @@ public class GameModel {
 		for(int i=0; i<players.size(); i++){
 			if (players.get(i).getAtkState()) {
 				players.get(i).setAtkState(false);
-				System.out.println("fhdjskfjvbhgfj");
 				int dx = 0, dy = 0;
 				String atkDir = players.get(i).getAtkDirection();
 				if (atkDir == "up") {
@@ -246,10 +242,10 @@ public class GameModel {
 					}
 				}
 				for(int k=0; k<ennemis.size(); k++){
-					System.out.println(String.valueOf(x+dx) + ", " + String.valueOf(y+dy) + ", " + String.valueOf(ennemis.get(k).getPosX()) + ", " +  String.valueOf(ennemis.get(k).getPosY()));
 					enBox = new Rectangle(ennemis.get(k).getPosX(), ennemis.get(k).getPosY(), 32, 32);
 					if(swordBox.intersects(enBox)){
-						System.out.println("sbghdfskjfhdskjfh"); ennemis.get(k).deathTimer();}
+						ennemis.get(k).deathTimer();
+					}
 				}
 			}
 		}

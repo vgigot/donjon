@@ -111,6 +111,8 @@ public class GameController extends JFrame{
 			remove(menu); playing=true;
 			model = new GameModel(scaleX,scaleY,playerNum);
 			board = new GameBoard(scaleX,scaleY,model);
+			roomBoards.put(0, board);
+			roomModels.put(0, model);
 			model.setBoard(board);
 			for(int i=0; i<model.getPlayers().size(); i++){
 				Listener kl = new Listener(model.getPlayers().get(i));
@@ -133,16 +135,34 @@ public class GameController extends JFrame{
 	//----------------------------------------------------------
 	
 	
-	public void changeRoom() {
-		model = new GameModel(scaleX,scaleY,playerNum, model.getPlayers());
-		board = new GameBoard(scaleX,scaleY,model);
+	public void changeRoom(String direction) {
+		if (direction == "up") {
+			roomY -= 1;
+		}
+		else if (direction == "down") {
+			roomY += 1;
+		}
+		else if (direction == "left") {
+			roomX -= 1;
+		}
+		else if (direction == "right") {
+			roomX += 1;
+		}
+		int key = 500 * roomX + roomY;
+		System.out.println("Key : " + String.valueOf(key));
+		if (roomBoards.containsKey(key)) {
+			System.out.println("Déjà venu");
+			model = roomModels.get(key);
+			board = roomBoards.get(key);
+		}
+		else {
+			System.out.println("Jamais venu");
+			model = new GameModel(scaleX,scaleY,playerNum, model.getPlayers());
+			board = new GameBoard(scaleX,scaleY,model);
+			roomModels.put(key, model);
+			roomBoards.put(key, board);
+		}
 		model.setBoard(board);
-		/*
-		for(int i=0; i<model.getPlayers().size(); i++){
-			Listener kl = new Listener(model.getPlayers().get(i));
-			listeners.add(kl); this.addKeyListener(kl);
-		}this.requestFocusInWindow();
-		*/
 
 		add(board);
 		pack();setLocationRelativeTo(null);
