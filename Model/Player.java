@@ -34,6 +34,9 @@ public class Player{
 	
 	private Inventory inventory;
 	
+	private String atkDirection = "down";
+	private Boolean attacking = false;
+	
 	
 	//----------------------------------------------------------
 	
@@ -157,7 +160,15 @@ public class Player{
 
 	
 	public int getId() {
-		return id;
+		return this.id;
+	}
+	
+	public void setAtkState(Boolean attacking) {
+		this.attacking = attacking;
+	}
+	
+	public Boolean getAtkState() {
+		return this.attacking;
 	}
 
 
@@ -179,12 +190,19 @@ public class Player{
 	public int getPosY() {
 		return posY;
 	}
+	
+	public String getAtkDirection() {
+		return this.atkDirection;
+	}
 
 
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
 
+	public void setAtkDirection(String direction){
+		this.atkDirection = direction;
+	}
 
 	public ArrayList<Bomb> getSpareBombs() {
 		return spareBombs;

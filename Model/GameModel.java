@@ -31,7 +31,7 @@ public class GameModel {
 	private ArrayList<Integer> avoidY; private ArrayList<Integer> boundsY;
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private ArrayList<Enemi> ennemis = new ArrayList<Enemi>();
+	private ArrayList<Enemy> ennemis = new ArrayList<Enemy>();
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
 	private ArrayList<PowerUp> allPowerUps = new ArrayList<PowerUp>();
 	private ArrayList<Explosion> explosions = new ArrayList<Explosion>();
@@ -64,7 +64,7 @@ public class GameModel {
     	}
     	for(int i=1; i<=2; i++){
     		//Inventory inventory = new Inventory(board);
-    		ennemis.add(new Enemi(i, scX, scY));}
+    		ennemis.add(new Enemy(i, scX, scY));}
     }
 	
 	
@@ -137,6 +137,7 @@ public class GameModel {
 		 * Si le joueur est sous-terre, il n'est bloque que par les murs solides.
 		 */
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
+		Rectangle swordBox;
 		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
@@ -147,6 +148,7 @@ public class GameModel {
 			}
 		}
 		for(int i=0; i<players.size(); i++){
+			// Bombes
 			for(int j=0; j<players.get(i).getSpareBombs().size(); j++){
 				Bomb b = players.get(i).getSpareBombs().get(j);
 				if(b.getActive()){
@@ -164,38 +166,52 @@ public class GameModel {
 		 * Si le joueur vient de poser une bombe, il peut la traverser.
 		 * Pas d'exception pour les joueurs sous terre.
 		 */
+		return collisionCheck(x, y, id, false);
+	}
+	
+	public void swordCollision(int x, int y) {
+		Rectangle swordBox;
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
-		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
-		Boolean collides = false;
-		for (int i=0; i<walls.size();i++){
-			Wall w = walls.get(i);
-			Rectangle wallBox = new Rectangle(w.getPosX()*32, w.getPosY()*32, 32, 32);
-			if(playerBox.intersects(wallBox)){collides = true;}
-		}
 		for(int i=0; i<players.size(); i++){
-			for(int j=0; j<players.get(i).getSpareBombs().size(); j++){
-				Bomb b = players.get(i).getSpareBombs().get(j);
-				if(b.getActive()){
-					Rectangle bombBox = new Rectangle(b.getPosX()*32, b.getPosY()*32, 32, 32);
-					if(!(i+1==id && b.getJustLaid()) && playerBox.intersects(bombBox)){
-						System.out.println(!(i+1==id && b.getJustLaid()));
-						collides = true;
+			if (players.get(i).getAtkState()) {
+				players.get(i).setAtkState(false);
+				System.out.println("fhdjskfjvbhgfj");
+				for (int m=0; m<walls.size();m++){
+					Wall w = walls.get(m);
+					if(!w.getSolid()){
+						Rectangle wallBox = new Rectangle(w.getPosX()*32, w.getPosY()*32, 32, 32);
+						String atkDir = players.get(i).getAtkDirection();
+						int dx = 0, dy = 0;
+						if (atkDir == "up") {
+							dx = 0; dy = -32;
+						}
+						else if (atkDir == "down") {
+							dx = 0; dy = 32;
+						}
+						else if (atkDir == "left") {
+							dx = -32; dy = 0;
+						}
+						else if (atkDir == "right") {
+							dx = 32; dy = 0;
+						}
+						// System.out.println(String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(w.getPosX()) + ", " +  String.valueOf(w.getPosY()));
+						swordBox = new Rectangle(x + dx, y + dy, 32, 32);
+						if(swordBox.intersects(wallBox)){w.deathTimer();}
 					}
-					else if(i+1==id && b.getJustLaid() && !playerBox.intersects(bombBox)){
-						System.out.println("Je viens de la laisser");b.setJustLaid(false);
-					}
+				}
+				for(int k=0; k<ennemis.size(); k++){
+					
 				}
 			}
 		}
-		return collides;
 	}
-	
 	
 	public Boolean collisionEnCheck(int x,int y, int id){
 		/**Gere les collisions des joueurs avec les murs et les bombes.
 		 * Si le joueur vient de poser une bombe, il peut la traverser.
 		 * Pas d'exception pour les joueurs sous terre.
 		 */
+		
 		Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
@@ -329,7 +345,7 @@ public class GameModel {
 		 *    sorte de l'explosion.
 		 */
 		for(int i=0; i<ennemis.size(); i++){
-			Enemi en = ennemis.get(i);
+			Enemy en = ennemis.get(i);
 			
 			//JOUEUR MORT
 			if(en.getLives() == 0 && en.getDeathPose() == 0){en.deathTimer();}
@@ -512,7 +528,7 @@ public class GameModel {
 		return players;
 	}
 
-	public ArrayList<Enemi> getEnemi() {
+	public ArrayList<Enemy> getEnemi() {
 		return ennemis;
 	}
 	
@@ -528,12 +544,16 @@ public class GameModel {
 		this.players = players;
 	}
 
-	public void setEnemi(ArrayList<Enemi> ennemis) {
+	public void setEnemi(ArrayList<Enemy> ennemis) {
 		this.ennemis = ennemis;
 	}
 
 	public ArrayList<Wall> getWalls() {
 		return walls;
+	}
+	
+	public ArrayList<Enemy> getEnemy() {
+		return this.ennemis;
 	}
 
 

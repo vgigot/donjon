@@ -24,6 +24,7 @@ public class Listener implements KeyListener {
 	private int up;
 	private int down;
 	private int bomb;
+	private int sword;
 	private int item;
 	private int inv_left;
 	private int inv_right;
@@ -50,6 +51,8 @@ public class Listener implements KeyListener {
 			left = KeyEvent.VK_Q;
 			up = KeyEvent.VK_Z;
 			down = KeyEvent.VK_S;
+			
+			sword = KeyEvent.VK_SPACE;
 			bomb = KeyEvent.VK_A;
 			item = KeyEvent.VK_I;
 			item_use = KeyEvent.VK_U;
@@ -68,14 +71,18 @@ public class Listener implements KeyListener {
 
 		if (e.getKeyCode() == right) {
 			pressed = "R";
+			player.setAtkDirection("right");
 			memoryPressed(prSaved);
 		} else if (e.getKeyCode() == left) {
 			pressed = "L";
+			player.setAtkDirection("left");
 			memoryPressed(prSaved);
 		} else if (e.getKeyCode() == up) {
+			player.setAtkDirection("up");
 			pressed = "U";
 			memoryPressed(prSaved);
 		} else if (e.getKeyCode() == down) {
+			player.setAtkDirection("down");
 			pressed = "D";
 			memoryPressed(prSaved);
 		} else if (e.getKeyCode() == item) {
@@ -89,6 +96,9 @@ public class Listener implements KeyListener {
 			memoryPressed(prSaved);
 		} else if (e.getKeyCode() == item_use) {
 			pressed = "UU";
+			memoryPressed(prSaved);
+		} else if (e.getKeyCode() == sword) {
+			pressed = "SW";
 			memoryPressed(prSaved);
 		}
 	}
@@ -117,6 +127,9 @@ public class Listener implements KeyListener {
 			memoryReleased();
 		} else if (e.getKeyCode() == item_use) {
 			released = "UU";
+			memoryReleased();
+		} else if (e.getKeyCode() == sword) {
+			released = "SW";
 			memoryReleased();
 		}
 

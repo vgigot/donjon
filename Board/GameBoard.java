@@ -14,7 +14,7 @@ import Model.Explosion;
 import Model.MoleHole;
 import Model.Player;
 import Model.Wall;
-import Model.Enemi;
+import Model.Enemy;
 import PowerUp.Pow_BombUp;
 import PowerUp.Pow_Clog;
 import PowerUp.Pow_DangerBomb;
@@ -73,7 +73,7 @@ public class GameBoard extends JPanel {
     
     
 	private void getAllSprites() {
-		groundSpr = getSprite("ground.jpg");
+		groundSpr = getSprite("ground.png");
 		
 		victory.add(getSprite("victory0.png"));
 		for(int i=1; i<=model.getPlayers().size(); i++){
@@ -84,7 +84,7 @@ public class GameBoard extends JPanel {
 		
 		wallSpr.add(getSprite("wall.jpg")); wallSpr.add(getSprite("Box.png")); wallSpr.add(getSprite("NoBox.png"));
 		
-		for(int i=1; i<=model.getEnemi().size(); i++){
+		for(int i=1; i<=model.getEnemy().size(); i++){
 			EnSpr.add(getSprite("Chicken.png"));
 			EnDeadSpr.add(getSprite("ChickenDead.png"));
 		}
@@ -228,8 +228,8 @@ public class GameBoard extends JPanel {
 		}
 		
 		// Affiche les ennemis.
-				for(int i=0; i<model.getEnemi().size(); i++){
-					Enemi en = model.getEnemi().get(i);
+				for(int i=0; i<model.getEnemy().size(); i++){
+					Enemy en = model.getEnemy().get(i);
 					//if(pl.isUnderground()){
 						//if(pl.getDeathPose() <= 2){
 						//	g.drawImage(arrowSpr.get(pl.getUgTime()), pl.getPosX()+32, pl.getPosY(), null);
@@ -241,6 +241,8 @@ public class GameBoard extends JPanel {
 							g.drawImage(EnDeadSpr.get(0), en.getPosX()+32, en.getPosY(), null);
 						}
 					}
+				
+		
 				
 		
 		// Affiche l'ecran de victoire a la fin du jeu.

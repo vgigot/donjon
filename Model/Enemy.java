@@ -10,7 +10,7 @@ import javax.swing.Timer;
 import PowerUp.PowerUp;
 
 
-public class Enemi{
+public class Enemy{
 
 	private int id;
 	private int posX; int posY; //Position en pixels (pas en carrés de 32x32)
@@ -38,7 +38,7 @@ public class Enemi{
 	//----------------------------------------------------------
 	
 	
-	public Enemi(int i, int scaleX, int scaleY){
+	public Enemy(int i, int scaleX, int scaleY){
 		id = i;
 		placeEnemi(scaleX, scaleY);
 		fireUp = 2; speed = 2; spareEffect = "N";

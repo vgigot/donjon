@@ -169,7 +169,11 @@ public class GameController extends JFrame{
 					kl.getPlayer().getInventory().moveRight(); kl.reset();
 				}else if(kl.getPressed().equals("UU")){
 					kl.getPlayer().useItem(); kl.reset();
+				}else if(kl.getPressed().equals("SW")){
+					kl.getPlayer().setAtkState(true); kl.reset();
 				}
+				model.swordCollision(x, y);
+				// model.collisionEnCheck(x, y, i+1); // TODO
 				if(kl.getAction()){
 					kl.setAction(false);
 					if(ug && !model.collisionCheck(x,y,i+1)){
