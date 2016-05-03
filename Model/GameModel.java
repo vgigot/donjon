@@ -17,6 +17,7 @@ import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
 import Model.Inventory;
 import Board.GameBoard;
+import Controller.GameController;
 
 
 public class GameModel {
@@ -44,10 +45,11 @@ public class GameModel {
 	private GameBoard board;
 	
 	
+	
 	//----------------------------------------------------------
 	
 	
-	public GameModel(int scX,int scY,int playerNum) {
+	public GameModel(int scX,int scY,int playerNum, ArrayList<Player> pl) {
     	scaleX = scX; scaleY = scY;
     	SX = scaleX/2; SY = scaleY/2;
     	over = false; winner = 0;
@@ -57,17 +59,35 @@ public class GameModel {
     	//boundsX.remove (SX);
     	boundsY = new ArrayList<Integer>(Arrays.asList(-1, scaleY));
     	layWalls();
-    	for(int i=1; i<=playerNum; i++){
-    		Inventory inventory = new Inventory(board);
-    		players.add(new Player(i, scX, scY, inventory));
-    		//ennemis.add(new Enemi(i, scX, scY));
-    	}
+    	players = pl;
     	for(int i=1; i<=2; i++){
     		//Inventory inventory = new Inventory(board);
-    		ennemis.add(new Enemy(i, scX, scY));}
+    		ennemis.add(new Enemy(i, scX, scY));
+    	}
     }
 	
-	
+	public GameModel(int scX, int scY,int playerNum) {
+		ArrayList<Player> pl = new ArrayList<Player>();
+    	for(int i=1; i<=playerNum; i++){
+    		Inventory inventory = new Inventory(board);
+    		pl.add(new Player(i, scX, scY, inventory));
+    	}
+    	
+    	scaleX = scX; scaleY = scY;
+    	SX = scaleX/2; SY = scaleY/2;
+    	over = false; winner = 0;
+    	avoidX = new ArrayList<Integer>(Arrays.asList(0,1,scaleX-2,scaleX-1));
+    	avoidY = new ArrayList<Integer>(Arrays.asList(0,1,scaleY-2,scaleY-1));
+    	boundsX = new ArrayList<Integer>(Arrays.asList(-1, scaleX));
+    	//boundsX.remove (SX);
+    	boundsY = new ArrayList<Integer>(Arrays.asList(-1, scaleY));
+    	layWalls();
+    	players = pl;
+    	for(int i=1; i<=2; i++){
+    		//Inventory inventory = new Inventory(board);
+    		ennemis.add(new Enemy(i, scX, scY));
+    	}
+	}
 	
 	public void layWalls(){
 		/**Place les murs dans la grille, suivant certaines contraintes:
@@ -78,19 +98,22 @@ public class GameModel {
 			int k = SX; int l =SY;
 			//if( (boundsX.contains(i) && i!= SX)|| (boundsY.contains(j))) {
 			//if((i<=SX-1) && (i>SX) && (j<=SY-1) && (j>SY)){
-			if (((i<= SX-1) && (j == -1)) || ((i> SX) && (j == -1)) || ((i<= SX-1) && (j == scaleY)) || ((i> SX) && (j == scaleY)) || ((i == -1) && (j <= SY-1)) || ((i == -1) && (j > SY)) || ((i == scaleX) && (j <= SY-1)) || ((i== scaleX) && (j > SY))){
+			if (((i<= SX-1) && (j == -1)) || ((i> SX) && (j == -1)) || ((i<= SX-1) && (j == scaleY)) 
+					|| ((i> SX) && (j == scaleY)) || ((i == -1) && (j <= SY-1)) || ((i == -1) && (j > SY)) 
+					|| ((i == scaleX) && (j <= SY-1)) || ((i== scaleX) && (j > SY))){
+				
 					walls.add(new Wall(i, j, true));
 			}
 			else if(!avoidX.contains(i) || !avoidY.contains(j) &&( avoidX.contains(i-1) && avoidY.contains(j-1))){
 				Random Rd = new Random();
-				if((Rd.nextInt(5)==0)){				//Met des blocs cassables 2 fois sur 3
+				if((Rd.nextInt(5)==0) && (0 <= i && i <= scaleX-1) && (0 <= j && j <= scaleY-1)) { //Met des blocs cassables 2 fois sur 3
 					walls.add(new Wall(i, j, true));
 					}
 				}
 				
 			else if(!avoidX.contains(i) || !avoidY.contains(j)){
 				Random rd = new Random();
-				if((rd.nextInt(7)==0)){				//Met des blocs cassables 2 fois sur 3
+				if((rd.nextInt(7)==0) && (0 <= i && i <= scaleX) && (0 <= j && j <= scaleY)){//Met des blocs cassables 2 fois sur 3
 					walls.add(new Wall(i, j, false));
 				}
 			}
@@ -169,38 +192,64 @@ public class GameModel {
 		return collisionCheck(x, y, id, false);
 	}
 	
+	public void checkDoors(int x, int y, Player player, GameController gc) { // TODO
+		Boolean out = false;
+		if (x < - 100) {
+			out = true;
+			player.setPosX(-50);
+		}
+		else if (x > 550) {
+			out = true;
+			player.setPosX(500);
+		}
+		else if (y > 500) {
+			out = true;
+			player.setPosY(450);
+		}
+		else if (y < -100) {
+			out = true;
+			player.setPosY(-50);
+		}
+		if (out) {
+			gc.changeRoom();
+		}
+	}
+	
 	public void swordCollision(int x, int y) {
-		Rectangle swordBox;
+		Rectangle swordBox, enBox;
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
 		for(int i=0; i<players.size(); i++){
 			if (players.get(i).getAtkState()) {
 				players.get(i).setAtkState(false);
 				System.out.println("fhdjskfjvbhgfj");
+				int dx = 0, dy = 0;
+				String atkDir = players.get(i).getAtkDirection();
+				if (atkDir == "up") {
+					dx = 0; dy = -32;
+				}
+				else if (atkDir == "down") {
+					dx = 0; dy = 32;
+				}
+				else if (atkDir == "left") {
+					dx = -32; dy = 0;
+				}
+				else if (atkDir == "right") {
+					dx = 32; dy = 0;
+				}
+				swordBox = new Rectangle(x + dx, y + dy, 32, 32);
 				for (int m=0; m<walls.size();m++){
 					Wall w = walls.get(m);
 					if(!w.getSolid()){
 						Rectangle wallBox = new Rectangle(w.getPosX()*32, w.getPosY()*32, 32, 32);
-						String atkDir = players.get(i).getAtkDirection();
-						int dx = 0, dy = 0;
-						if (atkDir == "up") {
-							dx = 0; dy = -32;
-						}
-						else if (atkDir == "down") {
-							dx = 0; dy = 32;
-						}
-						else if (atkDir == "left") {
-							dx = -32; dy = 0;
-						}
-						else if (atkDir == "right") {
-							dx = 32; dy = 0;
-						}
-						// System.out.println(String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(w.getPosX()) + ", " +  String.valueOf(w.getPosY()));
-						swordBox = new Rectangle(x + dx, y + dy, 32, 32);
+						
 						if(swordBox.intersects(wallBox)){w.deathTimer();}
 					}
 				}
 				for(int k=0; k<ennemis.size(); k++){
-					
+					System.out.println(String.valueOf(x+dx) + ", " + String.valueOf(y+dy) + ", " + String.valueOf(ennemis.get(k).getPosX()) + ", " +  String.valueOf(ennemis.get(k).getPosY()));
+					enBox = new Rectangle(ennemis.get(k).getPosX(), ennemis.get(k).getPosY(), 32, 32);
+					if(swordBox.intersects(enBox)){
+						System.out.println("sbghdfskjfhdskjfh"); ennemis.get(k).deathTimer();}
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,12 +43,17 @@ public class GameController extends JFrame{
 	private int playerNum;
 	private Boolean playing;
 	
+	private HashMap<Integer, GameBoard> roomBoards = new HashMap<Integer, GameBoard>();
+	private HashMap<Integer, GameModel> roomModels = new HashMap<Integer, GameModel>();
+	private int roomX = 0;
+	private int roomY = 0;
+	
 	
 	//----------------------------------------------------------
 	
 	
 	public GameController() {
-		setTitle("superBomberman");
+		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainMenu();
 	}
@@ -127,6 +133,21 @@ public class GameController extends JFrame{
 	//----------------------------------------------------------
 	
 	
+	public void changeRoom() {
+		model = new GameModel(scaleX,scaleY,playerNum, model.getPlayers());
+		board = new GameBoard(scaleX,scaleY,model);
+		model.setBoard(board);
+		/*
+		for(int i=0; i<model.getPlayers().size(); i++){
+			Listener kl = new Listener(model.getPlayers().get(i));
+			listeners.add(kl); this.addKeyListener(kl);
+		}this.requestFocusInWindow();
+		*/
+
+		add(board);
+		pack();setLocationRelativeTo(null);
+	}
+	
 	public void stepCycle(){
 		/**Le cycle repete a chaque step du jeu (toutes les 7 ms).*/
 		movePlayers();
@@ -173,6 +194,7 @@ public class GameController extends JFrame{
 					kl.getPlayer().setAtkState(true); kl.reset();
 				}
 				model.swordCollision(x, y);
+				model.checkDoors(x, y, kl.getPlayer(), this);
 				// model.collisionEnCheck(x, y, i+1); // TODO
 				if(kl.getAction()){
 					kl.setAction(false);
