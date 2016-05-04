@@ -195,19 +195,31 @@ public class GameModel {
 	public void checkDoors(int x, int y, Player player, GameController gc) { // TODO
 		Boolean out = false;
 		if (x < - 100) {
-			player.setPosX(500);
+			for(int i=0; i<players.size(); i++){
+				players.get(i).setPosX(500);
+				players.get(i).setPosY(player.getPosY());
+			}
 			gc.changeRoom("left");
 		}
 		else if (x > 550) {
-			player.setPosX(-50);
+			for(int i=0; i<players.size(); i++){
+				players.get(i).setPosX(-50);
+				players.get(i).setPosY(player.getPosY());
+			}
 			gc.changeRoom("right");
 		}
 		else if (y > 500) {
-			player.setPosY(-50);
+			for(int i=0; i<players.size(); i++){
+				players.get(i).setPosY(-50);
+				players.get(i).setPosX(player.getPosX());
+			}
 			gc.changeRoom("down");
 		}
 		else if (y < -100) {
-			player.setPosY(450);
+			for(int i=0; i<players.size(); i++){
+				players.get(i).setPosY(450);
+				players.get(i).setPosX(player.getPosX());
+			}
 			gc.changeRoom("up");
 		}
 	}
@@ -271,11 +283,10 @@ public class GameModel {
 				if(b.getActive()){
 					Rectangle bombBox = new Rectangle(b.getPosX()*32, b.getPosY()*32, 32, 32);
 					if(!(i+1==id && b.getJustLaid()) && EnBox.intersects(bombBox)){
-						System.out.println(!(i+1==id && b.getJustLaid()));
 						collides = true;
 					}
 					else if(i+1==id && b.getJustLaid() && !EnBox.intersects(bombBox)){
-						System.out.println("Il vient de la laisser");b.setJustLaid(false);
+						b.setJustLaid(false);
 					}
 				}
 			}

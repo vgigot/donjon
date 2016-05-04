@@ -19,6 +19,7 @@ import javax.swing.Timer;
 
 import Board.GameBoard;
 import Board.MenuBoard;
+import Model.Enemy;
 import Model.GameModel;
 import Model.MoleHole;
 
@@ -47,6 +48,8 @@ public class GameController extends JFrame{
 	private HashMap<Integer, GameModel> roomModels = new HashMap<Integer, GameModel>();
 	private int roomX = 0;
 	private int roomY = 0;
+	
+	private int frequencyCounter = 0;
 	
 	
 	//----------------------------------------------------------
@@ -151,12 +154,10 @@ public class GameController extends JFrame{
 		int key = 500 * roomX + roomY;
 		System.out.println("Key : " + String.valueOf(key));
 		if (roomBoards.containsKey(key)) {
-			System.out.println("Déjà venu");
 			model = roomModels.get(key);
 			board = roomBoards.get(key);
 		}
 		else {
-			System.out.println("Jamais venu");
 			model = new GameModel(scaleX,scaleY,playerNum, model.getPlayers());
 			board = new GameBoard(scaleX,scaleY,model);
 			roomModels.put(key, model);
@@ -215,7 +216,6 @@ public class GameController extends JFrame{
 				}
 				model.swordCollision(x, y);
 				model.checkDoors(x, y, kl.getPlayer(), this);
-				// model.collisionEnCheck(x, y, i+1); // TODO
 				if(kl.getAction()){
 					kl.setAction(false);
 					if(ug && !model.collisionCheck(x,y,i+1)){
@@ -225,6 +225,34 @@ public class GameController extends JFrame{
 					}else if(!ug){kl.getPlayer().placeBomb();}
 				}
 			}
+			for(int b=0; b<model.getEnemi().size(); b++){
+				Enemy en = model.getEnemi().get(b);
+				en.updateState(kl.getPlayer().getPosX(), kl.getPlayer().getPosY(), kl.getPlayer());
+			}
+		}
+		this.frequencyCounter += 1;
+		if (this.frequencyCounter == 6) {
+			for(int i=0; i<model.getEnemi().size(); i++){
+				Enemy en = model.getEnemi().get(i);
+				if (model.getEnemi().get(i).getDeathPose() == 0) {				
+					int dx = 0; int dy = 0;
+					String state = en.getState();
+					if (state != "still") {
+						int speed = en.getSpeed();
+						String direction = en.getDirection();
+						if (direction == "up") { dx = 0; dy = -speed; }
+						else if (direction == "down") { dx = 0; dy = speed; }
+						else if (direction == "left") { dx = -speed; dy = 0; }
+						else if (direction == "right") { dx = speed; dy = 0; }
+						
+						if (!model.collisionCheck(en.getPosX()+dx,en.getPosY()+dy,1,false)) {
+							en.setPosX(en.getPosX()+dx);
+							en.setPosY(en.getPosY()+dy);
+						}
+					}
+				}
+			}
+		this.frequencyCounter = 0;	
 		}
 	}
 	

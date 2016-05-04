@@ -32,7 +32,10 @@ public class Enemy{
 	private ActionListener holeThread;	//Enleve le joueur apres un temps
 	private int ugTime;
 	
-	//private Inventory inventory;
+	private String state = "still";
+	private Player target = null;
+	
+	private int securityDistance; 
 	
 	
 	//----------------------------------------------------------
@@ -40,8 +43,10 @@ public class Enemy{
 	
 	public Enemy(int i, int scaleX, int scaleY){
 		id = i;
+		speed = 2;
+		securityDistance = 150;
 		placeEnemi(scaleX, scaleY);
-		fireUp = 2; speed = 2; spareEffect = "N";
+		fireUp = 2; spareEffect = "N";
 		lives = 1; hit = false; deathPose = 0;
 		underground = false; ugTime = 0;
 		spareBombs.add(new Bomb(0,0));
@@ -62,7 +67,39 @@ public class Enemy{
 		}
 	}
 	
+	public void updateState(int x, int y, Player player) {
+		if (player.getId() == 1) {
+		}
+		if (target != null) {
+			if (Math.sqrt(Math.pow(posX - target.getPosX(), 2) + Math.pow(posY - target.getPosY(), 2)) >= securityDistance) {
+				state = "still";
+				target = null;
+			}
+		}
+		if ((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < securityDistance) && (target == null)){
+			state = "atk";
+			target = player;
+		}
+	}
 	
+	public String getDirection() {
+		if (target == null) {
+			return "still";
+		}
+		else {
+			if (Math.abs(target.getPosY() - posY) < Math.abs(target.getPosX() - posX)) {
+				if (target.getPosX() > posX) { return "right"; }
+				else if (target.getPosX() < posX) { return "left"; }
+				else { return "still"; }
+			}
+			else {
+				if (target.getPosY() > posY) { return "down"; }
+				else if (target.getPosY() < posY) { return "up"; }
+				else { return "still"; }
+			}
+		}
+		
+	}
 	
 	public int gridPosition(int pos){
 		/**Calcule dans quel intervalle de 32 pixels se trouve une
@@ -156,6 +193,9 @@ public class Enemy{
 		return id;
 	}
 
+	public String getState() {
+		return this.state;
+	}
 
 	public void setId(int id) {
 		this.id = id;

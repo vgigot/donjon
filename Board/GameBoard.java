@@ -259,13 +259,15 @@ public class GameBoard extends JPanel {
 			Image sprite = getSprite("inventory.png");
 			g.drawImage(sprite, menu_X, menu_Y, null);
 			int n = this.inventory.getStorage().size();
+			
+			int cellSize = 73;
 
 			for (int j = 0; j < n; j++){
 				pow = this.inventory.getStorage().get(j);
 				
 				
-				Y = menu_Y + 36 + 12 + ((j - 1) / 3) * 73;
-				X = menu_X + 41 + 12 + ((j + 2) % 3) * 73;
+				Y = menu_Y + 48 + (j / 3) * cellSize;
+				X = menu_X + 53 + (j % 3) * cellSize;
 				
 				drawPowerUp(g, pow, X, Y);
 			}
@@ -275,8 +277,8 @@ public class GameBoard extends JPanel {
 				X = menu_X + deph; Y = menu_Y + deph;
 			}
 			else {
-				Y = menu_Y + deph + ((this.inventory.getCurrentIndex() - 1) / 3) * 73;
-				X = menu_X + deph + ((this.inventory.getCurrentIndex() + 2) % 3) * 73;
+				Y = menu_Y + deph + ((this.inventory.getCurrentIndex()) / 3) * cellSize;
+				X = menu_X + deph + ((this.inventory.getCurrentIndex()) % 3) * cellSize;
 			}
 			
 			sprite = getSprite("cursor.png");

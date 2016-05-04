@@ -25,21 +25,23 @@ public class Inventory {
 	}
 	
 	public void add(PowerUp pow) {
-		if (this.storage.size() <= 9) {
+		if (this.storage.size() < 9) {
 			this.currentIndex += 1;
 			this.storage.add(pow);
 		}
 	}
 	
 	public void useCurrentItem(Player player) {
-		
-		if (this.storage.size() != 0) {
-			System.out.println(storage.size());
-			PowerUp pow = this.storage.get(this.currentIndex);
-			player.getMyPowerUps().add(pow); pow.affectPlayer(player);
-			this.storage.remove(this.currentIndex);
-			this.currentIndex = 0;
-			
+		if (this.opened) {
+			if (this.storage.size() != 0) {
+				System.out.println("Taille storage : " + String.valueOf(this.storage.size()));
+				System.out.println("Curseur : " + String.valueOf(this.currentIndex));
+				PowerUp pow = this.storage.get(this.currentIndex);
+				player.getMyPowerUps().add(pow);
+				pow.affectPlayer(player);
+				this.storage.remove(this.currentIndex);
+				this.currentIndex = 0;
+			}
 		}
 	}
 	
