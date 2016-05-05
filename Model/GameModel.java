@@ -264,7 +264,7 @@ public class GameModel {
 	}
 	
 	public Boolean collisionEnCheck(int x,int y, int id){
-		/**Gere les collisions des joueurs avec les murs et les bombes.
+		/**Gere les collisions des joueurs avec les murs.
 		 * Si le joueur vient de poser une bombe, il peut la traverser.
 		 * Pas d'exception pour les joueurs sous terre.
 		 */

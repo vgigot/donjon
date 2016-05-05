@@ -114,10 +114,10 @@ public class MenuBoard extends JPanel implements SwingConstants {
 	// ----------------------------------------------------------
 
 	private void getAllSprites() {
-		backgroundSpr = getSprite("ground.png");
+		backgroundSpr = getSprite("Ground.png");
 		wallSpr = getSprite("solid.png");
 
-		titleSpr = new ImageIcon(getClass().getResource("/title.png"));
+		titleSpr = new ImageIcon(getClass().getResource("/Dungeon title.png"));
 		moreSpr = new ImageIcon(getClass().getResource("/arrow+.png"));
 		lessSpr = new ImageIcon(getClass().getResource("/arrow-.png"));
 		startSpr = new ImageIcon(getClass().getResource("/start.png"));

@@ -73,7 +73,7 @@ public class GameBoard extends JPanel {
     
     
 	private void getAllSprites() {
-		groundSpr = getSprite("ground.png");
+		groundSpr = getSprite("Ground.png");
 		
 		victory.add(getSprite("victory0.png"));
 		for(int i=1; i<=model.getPlayers().size(); i++){
@@ -85,8 +85,8 @@ public class GameBoard extends JPanel {
 		wallSpr.add(getSprite("wall.jpg")); wallSpr.add(getSprite("Box.png")); wallSpr.add(getSprite("NoBox.png"));
 		
 		for(int i=1; i<=model.getEnemy().size(); i++){
-			EnSpr.add(getSprite("Chicken.png"));
-			EnDeadSpr.add(getSprite("ChickenDead.png"));
+			EnSpr.add(getSprite("enemy.png"));
+			EnDeadSpr.add(getSprite("enemydead.png"));
 		}
 		PlayerSpr.add(getSprite("Knight.png"));
 		powSpr.add(getSprite("fireUp.png")); powSpr.add(getSprite("bombUp.png"));
