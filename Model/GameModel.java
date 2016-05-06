@@ -171,19 +171,20 @@ public class GameModel {
 			}
 		}
 		for(int i=0; i<players.size(); i++){
-			// Bombes
+			for(int k = 0; k< ennemis.size(); k++ ){
+				Enemy en = ennemis.get(k);
+				Rectangle enne = new Rectangle(en.getPosX()*32, en.getPosY()*32, 32,32);
 			for(int j=0; j<players.get(i).getSpareBombs().size(); j++){
 				Bomb b = players.get(i).getSpareBombs().get(j);
-				if(b.getActive()){
+				if(b.getActive() || en.getState() == "atk"){
 					Rectangle bombBox = new Rectangle(b.getPosX()*32, b.getPosY()*32, 32, 32);
-					if(!(i+1==id && b.getJustLaid()) && playerBox.intersects(bombBox)){collides = true;}
+					if(!(i+1==id && b.getJustLaid()) && (playerBox.intersects(bombBox) || playerBox.intersects(enne) )){collides = true;}
 					else if(i+1==id && b.getJustLaid() && !playerBox.intersects(bombBox)){b.setJustLaid(false);}
 				}
 			}
-		}
+		}}
 		return collides;
 	}
-	
 	public Boolean collisionCheck(int x,int y, int id){
 		/**Gere les collisions des joueurs avec les murs et les bombes.
 		 * Si le joueur vient de poser une bombe, il peut la traverser.
@@ -226,7 +227,7 @@ public class GameModel {
 	
 	public void swordCollision(int x, int y) {
 		/**Gere les collisions des joueurs/ennemis avec les coffres.
-		 * Si le joueur le touche avec l'épee, le coffre s'ouvre et ensuite disparait.
+		 * Si le joueur le touche avec l'Ã©pee, le coffre s'ouvre et ensuite disparait.
 		 */
 		Rectangle swordBox, enBox;
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
