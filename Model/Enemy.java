@@ -77,7 +77,14 @@ public class Enemy{
 			}
 		}
 		if ((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < securityDistance) && (target == null)){
+			//state = "atk";
+			state = "depl";
+			target = player;
+		}
+		
+		if ((Math.sqrt(Math.pow(posX - x, 4) + Math.pow(posY - y, 4)) < securityDistance) && (target == null)){
 			state = "atk";
+			//state = "depl";
 			target = player;
 		}
 	}
@@ -113,7 +120,16 @@ public class Enemy{
 		return gridPos;
 	}
 	
-	
+	public void Atk(){
+		boolean atk = false; 
+		String direction = getDirection();
+		if(direction == "rigth" || direction == "left" || direction == "up"  || direction == "down"){
+			atk = true;
+			//int live = player.get
+			
+		}
+		
+	}
 	//----------------------------------------------------------
 	
 	
@@ -187,7 +203,9 @@ public class Enemy{
 		time.stop(); deathPose = 2;
 	}
 
-
+public Player getTarget() {
+		return target;
+	}
 	
 	public int getId() {
 		return id;
