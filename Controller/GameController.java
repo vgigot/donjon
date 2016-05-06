@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import Board.GameBoard;
 import Board.MenuBoard;
 import Model.Enemy;
+import Model.Player;
 import Model.GameModel;
 import Model.MoleHole;
 
@@ -169,7 +170,7 @@ public class GameController extends JFrame{
 	}
 	
 	public void stepCycle(){
-		/**Le cycle répète à chaque step du jeu (toutes les 7 ms).*/
+		/**Le cycle rÃ©pÃ¨te Ã  chaque step du jeu (toutes les 7 ms).*/
 		movePlayers();
 		model.explosionCheck(); model.holeCheck();
 		model.hitPlayersCheck(); model.hitWallsCheck();
@@ -236,7 +237,23 @@ public class GameController extends JFrame{
 				if (model.getEnemi().get(i).getDeathPose() == 0) {				
 					int dx = 0; int dy = 0;
 					String state = en.getState();
-					if (state != "still") {
+					if (state == "atk"){
+						//boolean atk = en.getAtk();
+						
+						//if (atk == true){
+							Random rd = new Random();
+							if((rd.nextInt(2)==0)){
+								//for (int j=0 ; j<model.getPlayers().size(); j++){
+									//Player pl = model.getPlayers().get(j);
+									//int vie = pl.getLives();
+									//pl.setLives(vie -1);
+								//}
+								Player pl = en.getTarget();
+								int vie = pl.getLives();
+								pl.setLives(vie -1);
+							//}
+						}}
+						if (state == "depl") {
 						int speed = en.getSpeed();
 						String direction = en.getDirection();
 						if (direction == "up") { dx = 0; dy = -speed; }
@@ -254,7 +271,6 @@ public class GameController extends JFrame{
 		this.frequencyCounter = 0;	
 		}
 	}
-	
 	
 	//----------------------------------------------------------
 	
