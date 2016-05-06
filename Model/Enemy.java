@@ -318,7 +318,15 @@ public Player getTarget() {
 	public int getDeathPose() {
 		return deathPose;
 	}
+public boolean getAtk() {
+		return atk;
+	}
 
+
+	public void setAtk(boolean atk) {
+		this.atk = atk;
+	}
+	
 
 	public void setDeathPose(int deathPose) {
 		this.deathPose = deathPose;
