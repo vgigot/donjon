@@ -37,7 +37,7 @@ public class Enemy{
 	
 	private int securityDistance; 
 	private int Atkdist;
-	
+	private boolean atk;
 	
 	//----------------------------------------------------------
 	
