@@ -8,7 +8,7 @@ import javax.swing.Timer;
 public class Bomb {
 	/**
 	 * Chaque joueur a un certain nombre de bombes. Ces bombes s'activent en se
-	 * posant, et prennent alors une position, lorsqu'elles ont explose, elles
+	 * posant, et prennent alors une position, lorsqu'elles ont explosé, elles
 	 * deviennent inactives. On ne peut poser une bombe que s'il y a des bombes
 	 * inactives. Les bombes peuvent avoir aussi plusieurs effets, donnes par le
 	 * joueur.
@@ -16,7 +16,7 @@ public class Bomb {
 
 	private int range;
 	private int posX;
-	private int posY; // Position en carrÃ©s de 32x32.
+	private int posY; // Position en carrés de 32x32.
 
 	private boolean active; // Si la bombe est active.
 	private boolean canExplode; // Si on peut y placer une explosion.
@@ -33,8 +33,8 @@ public class Bomb {
 
 	public Bomb(int pX, int pY) {
 		/**
-		 * Les bombes sont initialisees inactives a l'origine des coordonees, la
-		 * portee de l'explosion est fournie par l'objet joueur. Les bombes sont
+		 * Les bombes sont initialisées inactives à l'origine des coordonées, la
+		 * portée de l'explosion est fournie par l'objet joueur. Les bombes sont
 		 * aussi a l'origine avec effet normal.
 		 */
 		range = 1;

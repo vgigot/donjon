@@ -250,34 +250,11 @@ public class GameController extends JFrame{
 							en.setPosY(en.getPosY()+dy);
 						}
 					}
-					if (state == "atk"){
-						boolean atk = en.getAtk();
-						
-						if (atk == true){
-							Random rd = new Random();
-							if((rd.nextInt(2)==0)){
-								for (int j=0 ; j<model.getPlayers().size(); j++){
-									//Player pl = model.getPlayers().get(j);
-									//int vie = pl.getLives();
-									//pl.setLives(vie -1);
-								//}
-								Player pl = en.getTarget();
-								int vie = pl.getDeathPose();
-								int life = pl.getLives();
-								pl.setLives(life -1);
-								if (pl.getLives() == 0){
-									pl.deathTimer();
-								}
-								pl.setDeathPose (2);
-							}
-						}}
-						
 				}
 			}
-		this.frequencyCounter = 0;	
-		}}
-	}
-	
+		this.frequencyCounter = 0;
+		}
+	}	
 	
 	//----------------------------------------------------------
 	

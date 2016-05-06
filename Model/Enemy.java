@@ -79,14 +79,12 @@ public class Enemy{
 			}
 		}
 		if ( (Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < securityDistance) && (target == null)){
-			//state = "atk";
 			state = "depl";
 			target = player;
 		}
 		
 		 if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist) && (target == null)){
 			state = "atk";
-			//state = "depl";
 			target = player;
 		}
 	}
@@ -126,37 +124,10 @@ public class Enemy{
 		boolean atk = false; 
 		String direction = getDirection();
 		if(direction == "rigth" || direction == "left" || direction == "up"  || direction == "down"){
-			atk = true;
-			//int live = player.get
-			
+			atk = true;	
 		}
 		
 	}
-	//----------------------------------------------------------
-	
-	
-	//public void placeBomb(){
-	//	Boolean placed = false;
-	//	for(int i=0; i<spareBombs.size() && !placed; i++){
-		//	Bomb b = spareBombs.get(i);
-		//	if(!b.getActive()){
-			///	b.setRange(fireUp);
-			//	b.setEffect(spareEffect);  spareEffect = "N"; //Pose la bombe a effet.
-			//	b.setPosX(gridPosition(posX)); b.setPosY(gridPosition(posY));
-			//	b.setActive(true); b.setJustLaid(true);
-			//	b.beginCountdown();
-			//	placed=true;
-///         }
-	//	}
-//	}
-	
-	//public void inventory(){
-	//	this.inventory.menu();
-	//}
-	
-	//public void useItem() {
-	//	this.inventory.useCurrentItem(this);
-	//}
 	
 	//----------------------------------------------------------
 	

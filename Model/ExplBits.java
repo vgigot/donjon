@@ -10,7 +10,7 @@ public class ExplBits {
 	private int posX;
 	private int posY; // Position en carrés de 32x32
 	private String dir; // Direction du bras de l'explosion (R, L, U, D ou C)
-	private Boolean onEnd; // Si c'est le boutde l'explosion
+	private Boolean onEnd; // Si c'est le bout de l'explosion
 
 	// ----------------------------------------------------------
 
