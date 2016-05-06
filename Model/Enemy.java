@@ -84,7 +84,7 @@ public class Enemy{
 			target = player;
 		}
 		
-		else if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist) && (target == null)){
+		 if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist) && (target == null)){
 			state = "atk";
 			//state = "depl";
 			target = player;
