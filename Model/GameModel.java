@@ -382,16 +382,19 @@ public class GameModel {
 				Rectangle playerBox = new Rectangle(pl.getPosX()+3, pl.getPosY()+7, 26, 23);
 				for(int j=0; j<explosions.size(); j++){
 					for(int k=0; k<explosions.get(j).getBits().size(); k++){
+						for(int f = 0; f< ennemis.size(); f++ ){
+							Enemy en = ennemis.get(f);
 						ExplBits bit = explosions.get(j).getBits().get(k);
 						Rectangle explBox = new Rectangle(bit.getPosX()*32, bit.getPosY()*32, 32, 32);
 						if(playerBox.intersects(explBox)){
 							notColliding = false;
-							if(!pl.getHit()){pl.setHit(true); pl.setLives(pl.getLives() - 1);}
+							if(!pl.getHit() || en.getState() == "atk"){pl.setHit(true); pl.setLives(pl.getLives() - 1);}
 						}
 					}
 				}
 				if(notColliding && pl.getHit()){pl.setHit(false);}
 			}
+		}
 		}
 	}
 	
