@@ -12,7 +12,7 @@ import PowerUp.Pow_DangerBomb;
 import PowerUp.Pow_FireDown;
 import PowerUp.Pow_FireUp;
 import PowerUp.Pow_Heart;
-import PowerUp.Pow_MoleBomb;
+import PowerUp.Pow_brickwall;
 import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
 import Model.Inventory;
@@ -127,7 +127,7 @@ public class GameModel {
 		 * le type de powerup est aussi choisi aleatoirement.
 		 */
 		Random rd = new Random();
-		if((rd.nextInt(4)==0)){				//Met des powerup 1 fois sur 4
+		if((rd.nextInt(2)==0)){				//Met des powerup 1 fois sur 4
 			PowerUp newPow;
 			int diceRoll= rd.nextInt(16);
 			if(diceRoll < 4){
@@ -145,7 +145,7 @@ public class GameModel {
 			}else if(diceRoll < 15){
 				newPow = new Pow_DangerBomb(pX, pY); //D-Bomb 1/16
 			}else{
-				newPow = new Pow_MoleBomb(pX, pY); //M-Bomb 1/16
+				newPow = new Pow_brickwall(pX, pY); //M-Bomb 1/16
 			}allPowerUps.add(newPow);
 		}
 	}
@@ -225,6 +225,9 @@ public class GameModel {
 	}
 	
 	public void swordCollision(int x, int y) {
+		/**Gere les collisions des joueurs/ennemis avec les coffres.
+		 * Si le joueur le touche avec l'épee, le coffre s'ouvre et ensuite disparait.
+		 */
 		Rectangle swordBox, enBox;
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
 		for(int i=0; i<players.size(); i++){

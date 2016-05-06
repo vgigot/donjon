@@ -21,7 +21,7 @@ import PowerUp.Pow_DangerBomb;
 import PowerUp.Pow_FireDown;
 import PowerUp.Pow_FireUp;
 import PowerUp.Pow_Heart;
-import PowerUp.Pow_MoleBomb;
+import PowerUp.Pow_brickwall;
 import PowerUp.Pow_Skate;
 import PowerUp.PowerUp;
 
@@ -92,7 +92,7 @@ public class GameBoard extends JPanel {
 		powSpr.add(getSprite("fireUp.png")); powSpr.add(getSprite("bombUp.png"));
 		powSpr.add(getSprite("heart.png")); powSpr.add(getSprite("skate.png"));
 		powSpr.add(getSprite("fireDown.png")); powSpr.add(getSprite("clog.png"));
-		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("moleBomb.png"));
+		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("brickwall.png"));
 		
 		bombSpr = getSprite("bomb.png"); bombUnacSpr = getSprite("bombunactive.png");
 		explosionSpr = getSprite("explosion.png"); explosionEndSpr = getSprite("explosionend.png");
@@ -143,7 +143,7 @@ public class GameBoard extends JPanel {
 			g.drawImage(powSpr.get(5), X, Y, null);
 		}else if(pow instanceof Pow_DangerBomb){
 			g.drawImage(powSpr.get(6), X, Y, null);
-		}else if(pow instanceof Pow_MoleBomb){
+		}else if(pow instanceof Pow_brickwall){
 			g.drawImage(powSpr.get(7), X, Y, null);
 		}
 	}
@@ -191,9 +191,7 @@ public class GameBoard extends JPanel {
 				Bomb b = model.getPlayers().get(i).getSpareBombs().get(j);
 				if(b.getActive()){
 					g.drawImage(bombSpr, b.getPosX()*32+32, b.getPosY()*32+32, null);
-				}/*else{
-					g.drawImage(bombUnacSpr, b.getPosX()*32+32, b.getPosY()*32+32, null);
-				}*/
+				}
 			}
 		}
 		
@@ -230,11 +228,6 @@ public class GameBoard extends JPanel {
 		// Affiche les ennemis.
 				for(int i=0; i<model.getEnemy().size(); i++){
 					Enemy en = model.getEnemy().get(i);
-					//if(pl.isUnderground()){
-						//if(pl.getDeathPose() <= 2){
-						//	g.drawImage(arrowSpr.get(pl.getUgTime()), pl.getPosX()+32, pl.getPosY(), null);
-						//}
-					//}else{
 						if(en.getDeathPose() == 0){
 							g.drawImage(EnSpr.get(0), en.getPosX()+32, en.getPosY()+20, null);
 						}else if(en.getDeathPose() == 1){

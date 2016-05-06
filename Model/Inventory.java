@@ -34,8 +34,6 @@ public class Inventory {
 	public void useCurrentItem(Player player) {
 		if (this.opened) {
 			if (this.storage.size() != 0) {
-				System.out.println("Taille storage : " + String.valueOf(this.storage.size()));
-				System.out.println("Curseur : " + String.valueOf(this.currentIndex));
 				PowerUp pow = this.storage.get(this.currentIndex);
 				player.getMyPowerUps().add(pow);
 				pow.affectPlayer(player);

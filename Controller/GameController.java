@@ -152,7 +152,6 @@ public class GameController extends JFrame{
 			roomX += 1;
 		}
 		int key = 500 * roomX + roomY;
-		System.out.println("Key : " + String.valueOf(key));
 		if (roomBoards.containsKey(key)) {
 			model = roomModels.get(key);
 			board = roomBoards.get(key);
@@ -170,7 +169,7 @@ public class GameController extends JFrame{
 	}
 	
 	public void stepCycle(){
-		/**Le cycle repete a chaque step du jeu (toutes les 7 ms).*/
+		/**Le cycle répète à chaque step du jeu (toutes les 7 ms).*/
 		movePlayers();
 		model.explosionCheck(); model.holeCheck();
 		model.hitPlayersCheck(); model.hitWallsCheck();

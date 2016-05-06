@@ -1,12 +1,13 @@
 package PowerUp;
 
+
 import Model.Player;
 
 
 
-public class Pow_MoleBomb extends PowerUp{
-
-	public Pow_MoleBomb(int pX, int pY) {
+public class Pow_brickwall extends PowerUp{
+	
+	public Pow_brickwall(int pX, int pY) {
 		super(pX, pY);
 	}
 	
@@ -14,5 +15,5 @@ public class Pow_MoleBomb extends PowerUp{
 	public void affectPlayer(Player pl){
 		pl.setSpareEffect("M");
 	}
-	
+
 }
