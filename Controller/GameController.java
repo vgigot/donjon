@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -237,13 +238,21 @@ public class GameController extends JFrame{
 				if (model.getEnemi().get(i).getDeathPose() == 0) {				
 					int dx = 0; int dy = 0;
 					String state = en.getState();
-					if (state == "depl") {
+					if (state == "depl" || state == "atk") {
 						int speed = en.getSpeed();
 						String direction = en.getDirection();
 						if (direction == "up") { dx = 0; dy = -speed; }
 						else if (direction == "down") { dx = 0; dy = speed; }
 						else if (direction == "left") { dx = -speed; dy = 0; }
 						else if (direction == "right") { dx = speed; dy = 0; }
+						Player target;
+						if (state == "atk") {
+							target = en.getTarget();
+							Random random = new Random();
+							if (random.nextInt(50) == 0) {
+								target.setLives(target.getLives()-1);
+							}
+							
 						
 						if (!model.collisionCheck(en.getPosX()+dx,en.getPosY()+dy,1,false)) {
 							en.setPosX(en.getPosX()+dx);
@@ -254,7 +263,9 @@ public class GameController extends JFrame{
 			}
 		this.frequencyCounter = 0;
 		}
-	}	
+	}
+
+	}		
 	
 	//----------------------------------------------------------
 	

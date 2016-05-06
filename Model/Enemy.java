@@ -83,10 +83,10 @@ public class Enemy{
 			target = player;
 		}
 		
-		 if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist) && (target == null)){
+		 if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist)){
 			state = "atk";
 			target = player;
-		}
+		} // Bon j'espère que c'est à cause de team viewer - soit
 	}
 	
 	public String getDirection() {

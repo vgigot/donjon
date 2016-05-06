@@ -223,7 +223,7 @@ public class GameModel {
 			}
 			gc.changeRoom("up");
 		}
-	}
+	} // Maintenant tu peux aller chercher les saucisses swan et le vin
 	
 	public void swordCollision(int x, int y) {
 		/**Gere les collisions des joueurs/ennemis avec les coffres.
