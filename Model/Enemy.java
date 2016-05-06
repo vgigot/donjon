@@ -36,6 +36,7 @@ public class Enemy{
 	private Player target = null;
 	
 	private int securityDistance; 
+	private int Atkdist;
 	
 	
 	//----------------------------------------------------------
@@ -45,6 +46,7 @@ public class Enemy{
 		id = i;
 		speed = 2;
 		securityDistance = 150;
+		Atkdist = 50;
 		placeEnemi(scaleX, scaleY);
 		fireUp = 2; spareEffect = "N";
 		lives = 1; hit = false; deathPose = 0;
@@ -76,13 +78,13 @@ public class Enemy{
 				target = null;
 			}
 		}
-		if ((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < securityDistance) && (target == null)){
+		if ( (Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < securityDistance) && (target == null)){
 			//state = "atk";
 			state = "depl";
 			target = player;
 		}
 		
-		if ((Math.sqrt(Math.pow(posX - x, 4) + Math.pow(posY - y, 4)) < securityDistance) && (target == null)){
+		else if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist) && (target == null)){
 			state = "atk";
 			//state = "depl";
 			target = player;
