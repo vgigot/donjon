@@ -78,7 +78,7 @@ public class GameBoard extends JPanel {
 		victory.add(getSprite("victory0.png"));
 		for(int i=1; i<=model.getPlayers().size(); i++){
 			bomberSpr.add(getSprite("bomber"+Integer.toString(i)+".png"));
-			knightdeadSpr.add(getSprite("Knightdead"+Integer.toString(i)+".png"));
+			knightdeadSpr.add(getSprite("Knightdead.png"));
 			victory.add(getSprite("victory"+Integer.toString(i)+".png"));
 		}
 		
