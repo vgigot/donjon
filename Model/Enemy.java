@@ -286,7 +286,7 @@ public Player getTarget() {
 	public int getDeathPose() {
 		return deathPose;
 	}
-public boolean getAtk() {
+    public boolean getAtk() {
 		return atk;
 	}
 

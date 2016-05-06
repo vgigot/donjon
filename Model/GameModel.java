@@ -508,7 +508,8 @@ public class GameModel {
 						if(w.getBreaking() == 0 && breakCheck(w, bit.getPosX(), bit.getPosY(), bit.getDir())){w.deathTimer();}
 					}for(int k=0; k<allPowerUps.size(); k++){
 						PowerUp pow = allPowerUps.get(k);
-						if(breakCheck(pow, bit.getPosX(), bit.getPosY(), bit.getDir())){allPowerUps.remove(k);}
+						if(breakCheck(pow, bit.getPosX(), bit.getPosY(), bit.getDir())){allPowerUps.remove(k);
+						
 					}
 				}
 				
@@ -521,8 +522,10 @@ public class GameModel {
 						}
 					}
 				}
-			}}
-		}
+			
+				}}
+		}}
+
 	}
 
 
@@ -554,6 +557,7 @@ public class GameModel {
 			if(check1 || check2 || check3 || check4){mainCheck = true;}
 		}return mainCheck;
 	}
+
 
 
 	//----------------------------------------------------------
