@@ -52,7 +52,7 @@ public class Enemy{
 		lives = 1; hit = false; deathPose = 0;
 		underground = false; ugTime = 0;
 		spareBombs.add(new Bomb(0,0));
-		//inventory = inv;
+		
 	}
 	
 	
@@ -86,7 +86,7 @@ public class Enemy{
 		 if((Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2)) < Atkdist)){
 			state = "atk";
 			target = player;
-		} // Bon j'espère que c'est à cause de team viewer - soit
+		} 
 	}
 	
 	public String getDirection() {

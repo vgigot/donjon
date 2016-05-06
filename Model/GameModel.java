@@ -79,12 +79,10 @@ public class GameModel {
     	avoidX = new ArrayList<Integer>(Arrays.asList(0,1,scaleX-2,scaleX-1));
     	avoidY = new ArrayList<Integer>(Arrays.asList(0,1,scaleY-2,scaleY-1));
     	boundsX = new ArrayList<Integer>(Arrays.asList(-1, scaleX));
-    	//boundsX.remove (SX);
     	boundsY = new ArrayList<Integer>(Arrays.asList(-1, scaleY));
     	layWalls();
     	players = pl;
     	for(int i=1; i<=2; i++){
-    		//Inventory inventory = new Inventory(board);
     		ennemis.add(new Enemy(i, scX, scY));
     	}
 	}
@@ -96,8 +94,6 @@ public class GameModel {
 		 */
 		for(int i=-1; i<=scaleX; i++){	for(int j=-1; j<=scaleY; j++){
 			int k = SX; int l =SY;
-			//if( (boundsX.contains(i) && i!= SX)|| (boundsY.contains(j))) {
-			//if((i<=SX-1) && (i>SX) && (j<=SY-1) && (j>SY)){
 			if (((i<= SX-1) && (j == -1)) || ((i> SX) && (j == -1)) || ((i<= SX-1) && (j == scaleY)) 
 					|| ((i> SX) && (j == scaleY)) || ((i == -1) && (j <= SY-1)) || ((i == -1) && (j > SY)) 
 					|| ((i == scaleX) && (j <= SY-1)) || ((i== scaleX) && (j > SY))){
@@ -161,7 +157,6 @@ public class GameModel {
 		 */
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
 		Rectangle swordBox;
-		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
 			Wall w = walls.get(i);
@@ -223,7 +218,7 @@ public class GameModel {
 			}
 			gc.changeRoom("up");
 		}
-	} // Maintenant tu peux aller chercher les saucisses swan et le vin
+	} 
 	
 	public void swordCollision(int x, int y) {
 		/**Gere les collisions des joueurs/ennemis avec les coffres.
@@ -274,7 +269,6 @@ public class GameModel {
 		 */
 		
 		Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
-		//Rectangle EnBox = new Rectangle(x+3, y+7, 26, 23);
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
 			Wall w = walls.get(i);

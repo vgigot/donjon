@@ -8,11 +8,11 @@ import javax.swing.Timer;
 public class MoleHole {
 	/**
 	 * Les trous permettent au joueur d'avancer sous terre, ils sont crees par
-	 * des bombes taupe ou par des joueurs qui remontent a la surface.
+	 * un power up trou ou par des joueurs qui remontent a la surface.
 	 */
 
 	private int posX;
-	private int posY; // Position en carrÃ©s de 32x32
+	private int posY; // Position en carrés de 32x32
 
 	private Boolean active; // Faux lorsque le trou doit disparaitre.
 	private ActionListener holeThread; // Enleve le trou apres un temps

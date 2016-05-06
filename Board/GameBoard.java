@@ -43,7 +43,7 @@ public class GameBoard extends JPanel {
 	
 	private Image groundSpr;
 	private ArrayList<Image> bomberSpr = new ArrayList<Image>();
-	private ArrayList<Image> bomberDeadSpr = new ArrayList<Image>();
+	private ArrayList<Image> knightdeadSpr = new ArrayList<Image>();
 	private ArrayList<Image> EnSpr = new ArrayList<Image>();
 	private ArrayList<Image> EnDeadSpr = new ArrayList<Image>();
 	private ArrayList<Image> PlayerSpr = new ArrayList<Image>();
@@ -78,7 +78,7 @@ public class GameBoard extends JPanel {
 		victory.add(getSprite("victory0.png"));
 		for(int i=1; i<=model.getPlayers().size(); i++){
 			bomberSpr.add(getSprite("bomber"+Integer.toString(i)+".png"));
-			bomberDeadSpr.add(getSprite("bomberdead"+Integer.toString(i)+".png"));
+			knightdeadSpr.add(getSprite("Knightdead"+Integer.toString(i)+".png"));
 			victory.add(getSprite("victory"+Integer.toString(i)+".png"));
 		}
 		
@@ -94,7 +94,7 @@ public class GameBoard extends JPanel {
 		powSpr.add(getSprite("fireDown.png")); powSpr.add(getSprite("clog.png"));
 		powSpr.add(getSprite("dangerBomb.png")); powSpr.add(getSprite("brickwall.png"));
 		
-		bombSpr = getSprite("bomb.png"); bombUnacSpr = getSprite("bombunactive.png");
+		bombSpr = getSprite("bomb.png");
 		explosionSpr = getSprite("explosion.png"); explosionEndSpr = getSprite("explosionend.png");
 		
 		holeSpr = getSprite("hole.png");
@@ -220,7 +220,7 @@ public class GameBoard extends JPanel {
 					//g.drawImage(bomberSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
 					g.drawImage(PlayerSpr.get(0), pl.getPosX()+34, pl.getPosY()+25, null);
 				}else if(pl.getDeathPose() == 1){
-					g.drawImage(bomberDeadSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
+					g.drawImage(knightdeadSpr.get(pl.getId()-1), pl.getPosX()+32, pl.getPosY(), null);
 				}
 			}
 		}
