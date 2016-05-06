@@ -115,7 +115,7 @@ public class Player{
 	
 	public void intoGround(){
 		/**Met le joueur sous terre et compte le temps
-		 * de vie qu'il lui reste avant d'y Ã©touffer.
+		 * de vie qu'il lui reste avant d'y étouffer.
 		 */
 		ugTime = 6; underground = true;
 		holeThread = new ActionListener(){

@@ -60,7 +60,7 @@ public class Enemy{
 	
 	
 	public void placeEnemi(int scX, int scY){
-		/** Place le joueur en fonction de son Id
+		/** Place l'ennemi en fonction de son Id
 		 */
 		if(id == 1){
 			posX = (scX-1)*32; posY = 0;
@@ -262,9 +262,6 @@ public Player getTarget() {
 		this.spareEffect = spareEffect;
 	}
 
-	//public Inventory getInventory() {
-	//	return this.inventory;
-	//}
 	
 	public int getLives() {
 		return lives;

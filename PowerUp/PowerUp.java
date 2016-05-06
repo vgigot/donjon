@@ -13,7 +13,7 @@ public class PowerUp {
 	 */
 
 	private int posX;
-	private int posY; // Position en carrÃ©s de 32x32
+	private int posY; // Position en carrés de 32x32
 	private Boolean active;
 
 	// ----------------------------------------------------------

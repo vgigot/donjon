@@ -93,7 +93,6 @@ public class GameModel {
 		 * MURS CASSABLES: cases aleatoires sauf aux coins.
 		 */
 		for(int i=-1; i<=scaleX; i++){	for(int j=-1; j<=scaleY; j++){
-			int k = SX; int l =SY;
 			if (((i<= SX-1) && (j == -1)) || ((i> SX) && (j == -1)) || ((i<= SX-1) && (j == scaleY)) 
 					|| ((i> SX) && (j == scaleY)) || ((i == -1) && (j <= SY-1)) || ((i == -1) && (j > SY)) 
 					|| ((i == scaleX) && (j <= SY-1)) || ((i== scaleX) && (j > SY))){
@@ -123,7 +122,7 @@ public class GameModel {
 		 * le type de powerup est aussi choisi aleatoirement.
 		 */
 		Random rd = new Random();
-		if((rd.nextInt(2)==0)){				//Met des powerup 1 fois sur 4
+		if((rd.nextInt(2)==0)){				//Met des powerup 1 fois sur 2
 			PowerUp newPow;
 			int diceRoll= rd.nextInt(16);
 			if(diceRoll < 4){
@@ -141,7 +140,7 @@ public class GameModel {
 			}else if(diceRoll < 15){
 				newPow = new Pow_DangerBomb(pX, pY); //D-Bomb 1/16
 			}else{
-				newPow = new Pow_brickwall(pX, pY); //M-Bomb 1/16
+				newPow = new Pow_brickwall(pX, pY); //B_Wallb 1/16
 			}allPowerUps.add(newPow);
 		}
 	}
@@ -156,7 +155,6 @@ public class GameModel {
 		 * Si le joueur est sous-terre, il n'est bloque que par les murs solides.
 		 */
 		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
-		Rectangle swordBox;
 		Boolean collides = false;
 		for (int i=0; i<walls.size();i++){
 			Wall w = walls.get(i);
@@ -188,8 +186,7 @@ public class GameModel {
 		return collisionCheck(x, y, id, false);
 	}
 	
-	public void checkDoors(int x, int y, Player player, GameController gc) { // TODO
-		Boolean out = false;
+	public void checkDoors(int x, int y, Player player, GameController gc) {
 		if (x < - 100) {
 			for(int i=0; i<players.size(); i++){
 				players.get(i).setPosX(500);
@@ -222,10 +219,9 @@ public class GameModel {
 	
 	public void swordCollision(int x, int y) {
 		/**Gere les collisions des joueurs/ennemis avec les coffres.
-		 * Si le joueur le touche avec l'Ã©pee, le coffre s'ouvre et ensuite disparait.
+		 * Si le joueur le touche avec l'épee, le coffre s'ouvre et ensuite disparait.
 		 */
 		Rectangle swordBox, enBox;
-		Rectangle playerBox = new Rectangle(x+3, y+7, 26, 23);
 		for(int i=0; i<players.size(); i++){
 			if (players.get(i).getAtkState()) {
 				players.get(i).setAtkState(false);
